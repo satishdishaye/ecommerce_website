@@ -16,8 +16,10 @@ return new class extends Migration
             $table->bigInteger('cat_id')->unsigned(); // Corrected column type and added unsigned
             $table->string('product_name');
             $table->integer('price');
+            $table->string('market_price');
             $table->string('description');
             $table->string('status');
+            $table->string('image')->nullable(); // Added image field (nullable for optional image)
         
             // Foreign key constraint
             $table->foreign('cat_id')->references('id')->on('category')->onDelete('cascade'); 

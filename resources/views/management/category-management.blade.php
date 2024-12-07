@@ -44,17 +44,21 @@
                             <h4 class="card-title">Add New Category </h4>
                         </div><!--end card-header-->
                         <div class="card-body">    
-                            <form class="">
+                            <form class="" method="POST" action="{{route('management.add-category')}}">
+                                @csrf
                                 <div class="row">
                                     
                                   
                                     <div class="col-md-4 col-lg-2">
                                         <div class="mb-3">
                                             <label class="mb-2"> Category Name <span class="text-danger">*</span></label>
-                                            <input type="text" placeholder="Enter Name" class="form-control" name="name" value="" required>
+                                            <input type="text" placeholder="Enter Name" class="form-control" name="category_name" >
+                                            @error('category_name')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                                                                             </div>
                                     </div>
-                                   
+                                 
                                     
                 
                                     <div class="col-md-4 col-lg-2">
@@ -64,9 +68,13 @@
                                                 <option value="1" >Enable</option>
                                                 <option value="2" >Disable</option>
                                             </select>
-                                                                                            </div>
+
+                                            @error('status')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                                        </div>
                                     </div>
-                                   
+                                    
                                     <div class="col-md-4 col-lg-2">
                                             <div class="mb-2">
                                                 <label class="mb-3" ></label>
@@ -103,15 +111,18 @@
                                       </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach ($AllCategory as $iAllCategory )
                                         <tr>
-                                            <td>1</td>
-                                            <td></td>
-                                            <td>N/a</td>
+                                            <td>{{$loop->iteration}}</td>
+                                            <td>{{$iAllCategory->category_name}}</td>
+                                            <td>{{$iAllCategory->status}}</td>
                                             <td >                                                       
                                                  <a type="button" data-bs-toggle="modal" data-bs-target="#update-staff"><i class="las la-pen text-success  font-18"></i></a>
                                                  <a href="#"><i class="las la-trash-alt text-danger font-18"></i></a>
                                              </td>  
                                         </tr>
+                                        @endforeach
+                                        
                                                                                                                     
                                     </tbody>
                                   </table>

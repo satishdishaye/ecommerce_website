@@ -13,8 +13,8 @@
                 <div class="col-md-6">
                     <ul class="list-inline">
                         <li class="list-inline-item">
-                            <h4 class="page-title">Portal Staff Member </h4>
-                            <p>Manage Ai Astrology Portal Staff Profiles.</p>
+                            <h4 class="page-title">Product Management</h4>
+                            <p>Manage The Product .</p>
                         </li>
                     </ul>
                 </div><!--end col-->
@@ -29,7 +29,7 @@
                         </li>
                           
                         <li class="list-inline-item ">
-                            <a type="button" class="btn btn-theme" data-bs-toggle="collapse" href="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter"><i class="ti ti-plus "></i>Add New Staff </a>
+                            <a type="button" class="btn btn-theme" data-bs-toggle="collapse" href="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter"><i class="ti ti-plus "></i>Add New Product </a>
                             
                         </li>
                     </ul>
@@ -42,81 +42,58 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Add New Staff </h4>
+                            <h4 class="card-title">Add New Product </h4>
                         </div><!--end card-header-->
                         <div class="card-body">    
-                            <form class="">
+                            <form method="POST" action="{{ route('management.add-product') }}" enctype="multipart/form-data">
+                                @csrf
                                 <div class="row">
-                                    <div class="col-md-4 col-lg-2">
-                                        <div class="mb-3">
-                                            <label class="mb-2">Register Date <span class="text-danger">*</span></label>
-                                            <input type="date" class="form-control" name="reg_date" value="" required>
-                                                                                            </div>
-                                    </div>
+                            
                                     
                                     <div class="col-md-4 col-lg-2">
                                         <div class="mb-3">
-                                            <label class="mb-2">Role Name <span class="text-danger">*</span></label>
-                                            <select class="form-select" required>
-                                                <option value="">Select Role</option>
-                                                               <option value="5"  >
-                                                        OFFICE STAFF 
-                                                    </option>
-                                                                                                            <option value="2"  >
-                                                        Sub Admin
-                                                    </option>
-                                                                                                            <option value="1"  >
-                                                        Super Admin
-                                                    </option>
-                                                                                                    </select>
+                                            <label class="mb-2">Product Category <span class="text-danger">*</span></label>
+                                            <select class="form-select" name="cat_id" required>
+                                                <option value="">Select Category</option>
+                                                @foreach ($Category as $iCategory )
+                                                <option value="{{$iCategory->id}}"  > {{$iCategory->category_name}} </option>
+                                                @endforeach
+                                            </select>
+
+                                            @error('cat_id')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-lg-2">
+                                        <div class="mb-3">
+                                            <label class="mb-2">Product Name <span class="text-danger">*</span></label>
+                                            <input type="text" placeholder="Enter Name" class="form-control" name="product_name" value="" required>
+                                            @error('product_name')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-lg-2">
+                                        <div class="mb-3">
+                                            <label class="mb-2">Price <span class="text-danger">*</span></label>
+                                            <input type="text" placeholder="Enter Designation" class="form-control" name="price" required>
+                                            @error('price')
+                                                 <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                                                                             </div>
                                     </div>
                                     <div class="col-md-4 col-lg-2">
                                         <div class="mb-3">
-                                            <label class="mb-2">Name <span class="text-danger">*</span></label>
-                                            <input type="text" placeholder="Enter Name" class="form-control" name="name" value="" required>
-                                                                                            </div>
-                                    </div>
-                                    <div class="col-md-4 col-lg-2">
-                                        <div class="mb-3">
-                                            <label class="mb-2">Designation <span class="text-danger">*</span></label>
-                                            <input type="text" placeholder="Enter Designation" class="form-control" name="designation" value="" required>
-                                                                                            </div>
-                                    </div>
-                                    <div class="col-md-4 col-lg-2">
-                                        <div class="mb-3">
-                                            <label class="mb-2">Mobile No. <span class="text-danger">*</span></label>
-                                            <input type="text" placeholder="Enter Mobile No." oninput="validateMobile(this)" class="form-control" name="mobile_no" value="" required>
+                                            <label class="mb-2">Description <span class="text-danger">*</span></label>
+                                            <input type="text" placeholder="Enter Mobile No." oninput="validateMobile(this)" class="form-control" name="description"  required>
+                                            @error('description')
+                                                 <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+
                                             </div>
                                     </div>
-                                    <div class="col-md-4 col-lg-2">
-                                        <div class="mb-3">
-                                            <label class="mb-2">Email ID <span class="text-danger">*</span></label>
-                                            <input type="email"  placeholder="Enter Email ID" class="form-control" name="email" value="" required>
-                                                                                            </div>
-                                    </div>
-                                    <div class="col-md-4 col-lg-2">
-                                        <div class="mb-3">
-                                            <label class="mb-2">Password <span class="text-danger">*</span></label>
-                                            <input type="password" class="form-control" name="password" required >
-                                                                                            </div>
-                                    </div>
-                                    <div class="col-md-4 col-lg-2">
-                                        <div class="mb-3">
-                                            <label class="mb-2">Work Location <span class="text-danger">*</span></label>
-                                            <select class="form-select" name="admin_location" required>
-                                                <option value="">Select Location</option>
-                                                <option value="Surat" >Surat</option>
-                                            </select>
-                                                                                            </div>
-                                    </div>
-                                    <div class="col-md-4 col-lg-2">
-                                        <div class="mb-3">
-                                            <label class="mb-2">Address <span class="text-danger">*</span></label>
-                                            <input type="text" placeholder="Enter Address" class="form-control" name="password" required >
-                                              
-                                                                                            </div>
-                                    </div>
+                                   
                                     <div class="col-md-4 col-lg-2">
                                         <div class="mb-3">
                                             <label class="mb-2">Status <span class="text-danger">*</span></label>
@@ -124,12 +101,16 @@
                                                 <option value="1" >Enable</option>
                                                 <option value="2" >Disable</option>
                                             </select>
+
+                                            @error('status')
+                                              <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                                                                             </div>
                                     </div>
                                     <div class="col-md-4 col-lg-2">
-                                        <label class="mb-2">Upload Profile Photo</label>
+                                        <label class="mb-2">Upload Product Photo</label>
                                         <div class="input-group mb-3">
-                                            <input type="file" name="profilephoto" class="form-control">
+                                            <input type="file" name="product_image" class="form-control">
                                                                                             </div>
                                     </div>
                                     <div class="col-md-4 col-lg-2">
@@ -150,7 +131,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Portal Staff Record</h3>
+                            <h3 class="card-title">Product Record</h3>
                             
                         </div><!--end card-header-->
                         
@@ -160,40 +141,40 @@
                                     <thead class="thead bg-soft-secondary">
                                       <tr>
                                         <th>#</th>
-                                        <th>Name</th>
-                                        <th>Email ID</th>
-                                        <th>Mobile No.</th>
-                                        <th>Role</th>
-                                        <th>Designation</th>
-                                        <th>Work Location</th>
+                                        <th> Category Name</th>
+                                        <th>Product Name</th>
+                                        <th>Price</th>
+                                        <th>Description</th>
                                         <th>Status</th>                                                
-                                        <th>Reg.Date</th>
-                                        <th >Action</th>
-                                        <th>Address</th>
-                                        
-                                            
+                                        <th >Action</th>   
                                       </tr>
                                     </thead>
                                     <tbody>
+
+                                        @foreach ($Product as $iProduct )
                                         <tr>
-                                            <td>1</td>
-                                            <td></td>
-                                            <td>25 Jun 2024 2:40 PM</td>
-                                            <td>June</td>
-                                            <td>Salary</td>
-                                            <td>Avinash Sharma</td>
-                                            <td>121505</td>
-                                            <td>1215053456</td>
-                                            <td>N/a</td>
+                                            <td>{{$loop->iteration}}</td>
+                                            <td>{{optional($iProduct->category)->category_name}}</td>
+                                            <td>{{$iProduct->price}}</td>   
+                                            <td>{{$iProduct->product_name}}</td>
+                                            <td>{{$iProduct->description}}</td>
+                                            <td>@if ($iProduct->status==1)
+                                                        Enable
+                                                @else
+                                                        Disable
+                                                @endif
+                                            </td>
                                             <td >                                                       
                                                  <a type="button" data-bs-toggle="modal" data-bs-target="#update-staff"><i class="las la-pen text-success  font-18"></i></a>
                                                  <a href="#"><i class="las la-trash-alt text-danger font-18"></i></a>
                                              </td>
-                                            <td>N/A</td>
+                                           
                                            
                                              
                                             
-                                        </tr>
+                                        </tr> 
+                                        @endforeach
+                                       
                                                                                                                     
                                     </tbody>
                                   </table>
@@ -328,5 +309,6 @@
     </div>
     <!-- end page content -->
 </div>
+
 
 @endsection  

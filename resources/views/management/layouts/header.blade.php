@@ -105,7 +105,7 @@
                        
                             <li class="nav-item">
                               
-                            @if (session('management')->role_id=='1')  <a class='nav-link' href="">Project Panel</a>   @endif
+                            {{-- @if (session('management')->role_id=='1')  <a class='nav-link' href="">Project Panel</a>   @endif --}}
                             </li><!--end nav-item-->
                         </ul><!--end nav-->
                     </div><!-- end Vendors Management -->
@@ -117,17 +117,17 @@
 
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                            @if (session('management')->role_id=='1') <a class='nav-link' href="">Leads Management</a>   @endif
+                            {{-- @if (session('management')->role_id=='1') <a class='nav-link' href="">Leads Management</a>   @endif --}}
                             </li>
                             <!-- <li class="nav-item">
                                 <a class='nav-link' href='#'>Add Cash Booking</a>
                             </li> -->
                             <li class="nav-item">
-                                <a class='nav-link' href="">Add - Product</a>
+                                <a class='nav-link' href="{{route('management.product-management')}}">Add - Product</a>
                             </li><!--end nav-item-->
 
                             <li class="nav-item">
-                                <a class='nav-link' href=""> Category Management</a>
+                                <a class='nav-link' href="{{route('management.category-management')}}"> Category Management</a>
                             </li><!--end nav-item-->
 
                             <li class="nav-item">
@@ -145,8 +145,8 @@
                         </div>
 
                         <ul class="nav flex-column">
-                            <li class="nav-item">
-                            @if (session('management')->role_id=='1')  <a class='nav-link' href=''>Employee</a>   @endif
+                            {{-- <li class="nav-item"> --}}
+                            {{-- @if (session('management')->role_id=='1')  <a class='nav-link' href=''>Employee</a>   @endif --}}
                             </li><!--end nav-item-->
                             <li class="nav-item">
                                 <a class='nav-link' href='#'>Employee</a>
@@ -207,7 +207,7 @@
                                 <img src="{{ url('public/uploads/profile-photo/' . (session('user_photo') ?? 'avatar-1.jpg')) }}" alt="profile-user" class="rounded-circle me-2 thumb-sm" />
                                 <div>
                                     <small class="d-none d-md-block font-11">Logged in</small>
-                                    <span class="d-none d-md-block fw-semibold font-12"> {{ session('management')->name }} <i
+                                    <span class="d-none d-md-block fw-semibold font-12"> <i
                                             class="mdi mdi-chevron-down"></i></span>
                                 </div>
                             </div>
