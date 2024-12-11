@@ -11,13 +11,13 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Http;
 
 
-
-
 class ManagementAuthController extends Controller
 {
     public function managementLogin()
     {   
+
         return view('management.auth.login');
+
     }
 
 

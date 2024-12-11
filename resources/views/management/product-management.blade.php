@@ -20,7 +20,6 @@
                 </div><!--end col-->
                 <div class="col-md-6 pt-3">
                     <ul class="list-inline justify-content-end d-flex">
-
                         <li class="list-inline-item ">
                             <div class="input-group">                                                
                                 <input type="text" id="chat-search" name="chat-search" class="form-control" placeholder="Search">
@@ -77,7 +76,7 @@
                                     <div class="col-md-4 col-lg-2">
                                         <div class="mb-3">
                                             <label class="mb-2">Price <span class="text-danger">*</span></label>
-                                            <input type="text" placeholder="Enter Designation" class="form-control" name="price" required>
+                                            <input type="text" class="form-control" name="price" required>
                                             @error('price')
                                                  <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
@@ -86,7 +85,7 @@
                                     <div class="col-md-4 col-lg-2">
                                         <div class="mb-3">
                                             <label class="mb-2">Description <span class="text-danger">*</span></label>
-                                            <input type="text" placeholder="Enter Mobile No." oninput="validateMobile(this)" class="form-control" name="description"  required>
+                                            <input type="text"  class="form-control" name="description"  required>
                                             @error('description')
                                                  <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
@@ -165,8 +164,15 @@
                                                 @endif
                                             </td>
                                             <td >                                                       
-                                                 <a type="button" data-bs-toggle="modal" data-bs-target="#update-staff"><i class="las la-pen text-success  font-18"></i></a>
-                                                 <a href="#"><i class="las la-trash-alt text-danger font-18"></i></a>
+                                                 <a onclick="update_product(
+                                                 '{{$iProduct->id}}',
+                                                 '{{$iProduct->cat_id}}',
+                                                 '{{$iProduct->price}}',
+                                                 '{{$iProduct->product_name}}',
+                                                  '{{$iProduct->description}}',
+                                                   '{{$iProduct->status}}'
+                                                 )" data-bs-toggle="modal" data-bs-target="#update-staff"><i class="las la-pen text-success  font-18"></i></a>
+                                                 <a href="{{route('management.delete-product',["p_id"=>$iProduct->id])}}"><i class="las la-trash-alt text-danger font-18"></i></a>
                                              </td>
                                            
                                            
@@ -184,119 +190,7 @@
                 </div> <!-- end col -->
             </div> <!-- end row -->
             
-            <div class="modal fade " id="update-staff" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
-                    <form class="">
-                  <div class="modal-content ">
-                    <div class="modal-header bg-light">
-                      <h1 class="modal-title text-dark fs-5" id="staticBackdropLabel">Update Staff Profile</h1>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- <p>Update the Data of All Payouts </p> -->
-                        
-                        <div class="row">
-                            <div class="col-md-4 col-lg-4">
-                                <div class="mb-3">
-                                    <label class="mb-2">Register Date <span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" id="reg_date" name="reg_date" required>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-lg-4">
-                                <div class="mb-3">
-                                    <label class="mb-2">Role Name <span class="text-danger">*</span></label>
-                                    <select  id="role_id" name="role_id" class="form-select" required>
-                                                                                                    <option value="5"  >
-                                                OFFICE STAFF 
-                                            </option>
-                                                                                                    <option value="2"  >
-                                                Sub Admin
-                                            </option>
-                                                                                                    <option value="1"  >
-                                                Super Admin
-                                            </option>
-                                                                                            </select>
-                                </div>
-                            </div>
-                            <input type="hidden" class="form-control" id="mid" name="mid" >
-                            <div class="col-md-4 col-lg-4">
-                                <div class="mb-3">
-                                    <label class="mb-2">Name <span class="text-danger">*</span></label>
-                                    <input type="text" placeholder="Enter Name" class="form-control" id="name" name="name" required>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-lg-4">
-                                <div class="mb-3">
-                                    <label class="mb-2">Designation <span class="text-danger">*</span></label>
-                                    <input type="text" placeholder="Enter Designation" class="form-control" id="designation" name="designation" required>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-lg-4">
-                                <div class="mb-3">
-                                    <label class="mb-2">Mobile No. <span class="text-danger">*</span></label>
-                                    <input type="number" oninput="validateMobile(this)" placeholder="Enter Mobile No." class="form-control" id="mobile_no" name="mobile_no" required>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-lg-4">
-                                <div class="mb-3">
-                                    <label class="mb-2">Email ID <span class="text-danger">*</span></label>
-                                    <input type="email" placeholder="Enter Email ID" class="form-control" id="email" name="email" required>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-lg-4">
-                                <div class="mb-3">
-                                    <label class="mb-2" for="userpassword">Address</label>
-                                    <input type="text" class="form-control" name="address" id="address" placeholder="Enter Address">
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-lg-4">
-                                <div class="mb-3">
-                                    <label class="mb-2" for="userpassword">Password</label>
-                                    <input type="password" class="form-control" name="password" id="password" placeholder="Enter password">
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-lg-4">
-                                <div class="mb-3">
-                                    <label class="mb-2">Work Location <span class="text-danger">*</span></label>
-                                    <select id="admin_location" class="form-select" name="admin_location" required>
-                                    <option value="">Select Location</option>
-                                     <option value="Surat">Surat</option>
-                                      
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-lg-4">
-                                <div class="mb-3">
-                                    <label class="mb-2">Status <span class="text-danger">*</span></label>
-                                    <select id="status" name="status" class="form-select">
-                                        <option value="1">Enable</option>
-                                        <option value="2">Disable</option>
-                                    </select>
-                                </div>
-                            </div>
-                           
-                            <div class="col-md-6 col-lg-6">
-                                <label class="mb-2">Upload Profile Photo</label>
-                                <div class="input-group mb-3">
-                                    <input type="file" class="form-control" name="profilephoto" id="admin_image" aria-describedby="inputGroupFileAddon03" aria-label="Upload">
-    
-                                </div>
-                              
-                            </div>
-                            
-                        </div>
-                      
-                    </div>
-          
-                    <div class="modal-footer ">
-                      <button type="button" class="btn  btn-md btn-de-danger" data-bs-dismiss="modal">Close</button>
-                      <button type="submit" class="btn  btn-md btn-theme">Update </button>
-                    </div>
-                  </div>
-                </form>
-                </div>
-              </div>
-        </div><!-- container -->
+       
 
        
         <!--Start Footer-->
@@ -310,5 +204,5 @@
     <!-- end page content -->
 </div>
 
-
+@extends('management.modals.update-product')
 @endsection  

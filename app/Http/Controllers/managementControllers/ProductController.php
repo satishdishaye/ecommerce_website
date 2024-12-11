@@ -14,7 +14,7 @@ class ProductController extends Controller
 {
     public function productManagement(){
          
-        $Product=Product::with("category")->where('status',1)->get();
+        $Product=Product::with("category")->get();
         $Category=Category::where('status',1)->get();
         return view('management.product-management',["Product"=>$Product,"Category"=>$Category]);
     }
@@ -44,12 +44,62 @@ class ProductController extends Controller
         
         if ($request->hasfile('product_image')) {
             @unlink('storage/app/' . $Product->product_image);
-            $Product->image = $request->file('product_image')->store('public');
+            $Product->image = $request->file('product_image')->store('public/product','public');
         }
+
+
         if($Product->save()){
             return redirect()->back()->with(['success'=>"Product Created !"]);
         }else{
             return redirect()->back()->with(['error'=>"Please enter valid data !"]);
+
+        }
+    }
+
+
+
+    public function updateProduct(Request $request){
+
+        $request->validate([
+            "id"=>"required",
+            "update_cat_id"=>"required",
+            "update_product_name"=>"required",
+            "update_price"=>"required",
+            "update_description"=>"required",
+            "update_status"=>"required",
+        ]);
+        
+        $product=Product::where('id',$request->id)->first();
+        $product->cat_id=$request->update_cat_id;
+        $product->product_name=$request->update_product_name;
+        $product->price=$request->update_price;
+        $product->description=$request->update_description;
+        $product->status=$request->update_status;
+
+        
+        if ($request->hasfile('product_image')) {
+            @unlink('storage/app/' . $product->product_image);
+            $product->image = $request->file('product_image')->store('public/product','public');
+        }
+
+
+        if($product->save()){
+            return redirect()->back()->with(['success'=>"Product updated !"]);
+        }else{
+            return redirect()->back()->with(['error'=>"Please enter valid data !"]);
+
+        }
+    }
+
+
+    public function deleteProduct(Request $request ,$p_id)
+    {  
+        $product= Product::where("id",$p_id)->first();
+
+        if($product->delete()){
+            return redirect()->back()->with(['success'=>"product deleted Successfully !"]);
+        }else{
+            return redirect()->back()->with(['error'=>"Please Re-Enter Data !"]);
 
         }
     }

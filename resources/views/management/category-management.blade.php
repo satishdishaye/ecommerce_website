@@ -19,14 +19,14 @@
                 </div><!--end col-->
                 <div class="col-md-6 pt-3">
                     <ul class="list-inline justify-content-end d-flex">
-
+                        <form method="GET" action="{{route('management.category-management')}}">
                         <li class="list-inline-item ">
                             <div class="input-group">                                                
-                                <input type="text" id="chat-search" name="chat-search" class="form-control" placeholder="Search">
-                               <button type="button" class="btn btn-theme shadow-none"><i class="la la-search"></i></button>
+                                <input type="text" id="chat-search" name="search" class="form-control" value="{{request('search')}}" placeholder="Search">
+                               <button type="submit" class="btn btn-theme shadow-none"><i class="la la-search"></i></button>
                             </div>
                         </li>
-                          
+                        </form>
                         <li class="list-inline-item ">
                             <a type="button" class="btn btn-theme" data-bs-toggle="collapse" href="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter"><i class="ti ti-plus "></i>Add New Category </a>
                             
@@ -44,7 +44,7 @@
                             <h4 class="card-title">Add New Category </h4>
                         </div><!--end card-header-->
                         <div class="card-body">    
-                            <form class="" method="POST" action="{{route('management.add-category')}}">
+                            <form class="" method="POST" action="{{route('management.add-category')}}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     
@@ -55,10 +55,18 @@
                                             <input type="text" placeholder="Enter Name" class="form-control" name="category_name" >
                                             @error('category_name')
                                             <div class="alert alert-danger">{{ $message }}</div>
-                                        @enderror
+                                            @enderror
                                                                                             </div>
                                     </div>
-                                 
+                                    <div class="col-md-4 col-lg-2">
+                                        <label class="mb-2">Upload Product Photo</label>
+                                        <div class="input-group mb-3">
+                                            <input type="file" name="category_image" class="form-control">
+                                            @error('category_image')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                                                                            </div>
+                                    </div>
                                     
                 
                                     <div class="col-md-4 col-lg-2">
@@ -111,15 +119,20 @@
                                       </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($AllCategory as $iAllCategory )
+                                        @foreach ($all_category as $iAllCategory )
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
                                             <td>{{$iAllCategory->category_name}}</td>
-                                            <td>{{$iAllCategory->status}}</td>
+                                            <td>@if ($iAllCategory->status==1)
+                                                Active
+                                                @else
+                                               Disable
+                                            @endif</td>
                                             <td >                                                       
-                                                 <a type="button" data-bs-toggle="modal" data-bs-target="#update-staff"><i class="las la-pen text-success  font-18"></i></a>
-                                                 <a href="#"><i class="las la-trash-alt text-danger font-18"></i></a>
-                                             </td>  
+                                                 <a onclick="update_category('{{$iAllCategory->id}}','{{$iAllCategory->category_name}}','{{$iAllCategory->status}}')" data-bs-toggle="modal" data-bs-target="#update-staff"><i class="las la-pen text-success  font-18"></i></a>
+                                                 <a href="{{ route('management.delete-category', ['cat_id' => $iAllCategory->id]) }}">
+                                                    <i class="las la-trash-alt text-danger font-18"></i>
+                                                </a>                                             </td>  
                                         </tr>
                                         @endforeach
                                         
@@ -132,51 +145,7 @@
                 </div> <!-- end col -->
             </div> <!-- end row -->
             
-            <div class="modal fade " id="update-staff" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
-                    <form class="">
-                  <div class="modal-content ">
-                    <div class="modal-header bg-light">
-                      <h1 class="modal-title text-dark fs-5" id="staticBackdropLabel">Update Staff Profile</h1>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- <p>Update the Data of All Payouts </p> -->
-                        
-                        <div class="row">
-                           
-                            <div class="col-md-6 col-lg-6">
-                                <div class="mb-3">
-                                    <label class="mb-2" for="userpassword">Category Name</label>
-                                    <input type="text" class="form-control" name="category" id="address" placeholder="Enter category">
-                                </div>
-                            </div>
-                           
-                            <div class="col-md-6 col-lg-6">
-                                <div class="mb-3">
-                                    <label class="mb-2">Status <span class="text-danger">*</span></label>
-                                    <select id="status" name="status" class="form-select">
-                                        <option value="1">Enable</option>
-                                        <option value="2">Disable</option>
-                                    </select>
-                                </div>
-                            </div>
-                           
-                          
-                        </div>
-                      
-                    </div>
-          
-                    <div class="modal-footer ">
-                      <button type="button" class="btn  btn-md btn-de-danger" data-bs-dismiss="modal">Close</button>
-                      <button type="submit" class="btn  btn-md btn-theme">Update </button>
-                    </div>
-                  </div>
-                </form>
-                </div>
-              </div>
-        </div><!-- container -->
-
+         
        
         <!--Start Footer-->
         <!-- Footer Start -->
@@ -188,5 +157,5 @@
     </div>
     <!-- end page content -->
 </div>
-
+@extends("management.modals.update-category")
 @endsection  

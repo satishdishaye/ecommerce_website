@@ -6,7 +6,7 @@ use App\Http\Controllers\managementControllers\MagamentController;
 use App\Http\Controllers\managementControllers\CategoroyController;
 use App\Http\Controllers\managementControllers\ProductController;
 
-
+use App\Http\Controllers\websiteController\HomeController;
 
 ///////////start management /////////////////
 
@@ -38,7 +38,7 @@ Route::prefix('/management')->group(function() {
         Route::get('product-management', [ProductController::class, 'productManagement'])->name('management.product-management');
         Route::post('add-product', [ProductController::class, 'addProduct'])->name('management.add-product');
         Route::post('update-product', [ProductController::class, 'updateProduct'])->name('management.update-product');
-        Route::get('delete-product/{cat_id}', [ProductController::class, 'deleteProduct'])->name('management.delete-product');
+        Route::get('delete-product/{p_id}', [ProductController::class, 'deleteProduct'])->name('management.delete-product');
 
 
 
@@ -59,11 +59,8 @@ Route::prefix('/management')->group(function() {
 
 
 
-
-Route::get('/', function () {
-    return view('website.index');
-})->name('home');
-
+Route::get('/', [HomeController::class, 'home'])->name('home');
+Route::get('/shop-details', [HomeController::class, 'shopDetails'])->name('shop-details');
 
 Route::get('/blog', function () {
     return view('website.blog');
@@ -84,10 +81,6 @@ Route::get('/contact', function () {
     return view('website.contact');
 })->name('contact');
 
-
-Route::get('/shop-details', function () {
-    return view('website.shop-details');
-})->name('shop-details');
 
 Route::get('/shop-grid', function () {
     return view('website.shop-grid');

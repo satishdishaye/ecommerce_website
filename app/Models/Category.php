@@ -13,4 +13,13 @@ class Category extends Model
         'status',
     ];
 
+
+
+   
+
+    public function scopeSearch($query, $search)
+{
+    return $query->where('category_name', 'like', '%' . $search . '%');
+}
+
 }
