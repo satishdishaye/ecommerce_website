@@ -4,24 +4,23 @@
 @section('content')
   
 
-  
-
-    <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="breadcrumb__text">
-                        <h2>Contact Us</h2>
-                        <div class="breadcrumb__option">
-                            <a href="./index.html">Home</a>
-                            <span>Contact Us</span>
-                        </div>
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="{{ asset('asset/img/breadcrumb.jpg') }}">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Contact Us</h2>
+                    <div class="breadcrumb__option">
+                      {!! breadcrumbs() !!}
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
     <!-- Breadcrumb Section End -->
 
     <!-- Contact Section Begin -->
@@ -89,16 +88,28 @@
                     </div>
                 </div>
             </div>
-            <form action="#">
+            <form action="{{route('send-contact')}}" method="POST">
+                @csrf
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
-                        <input type="text" placeholder="Your name">
+                        <input type="text" name="name" placeholder="Your name">
                     </div>
+                    @error('name')
+                        <div class="text-danger">{{$message}}</div>
+                    @enderror
                     <div class="col-lg-6 col-md-6">
-                        <input type="text" placeholder="Your Email">
+                        <input type="text" name="email" placeholder="Your Email">
                     </div>
+
+                    @error('email')
+                        <div class="text-danger">{{$message}}</div>
+                    @enderror
+
                     <div class="col-lg-12 text-center">
-                        <textarea placeholder="Your message"></textarea>
+                        <textarea placeholder="Your message" name="message"></textarea>
+                        @error('message')
+                        <div class="text-danger">{{$message}}</div>
+                    @enderror
                         <button type="submit" class="site-btn">SEND MESSAGE</button>
                     </div>
                 </div>

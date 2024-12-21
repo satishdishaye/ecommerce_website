@@ -64,6 +64,8 @@
                                             @enderror
                                         </div>
                                     </div>
+
+                                    
                                     <div class="col-md-4 col-lg-2">
                                         <div class="mb-3">
                                             <label class="mb-2">Product Name <span class="text-danger">*</span></label>
@@ -76,42 +78,114 @@
                                     <div class="col-md-4 col-lg-2">
                                         <div class="mb-3">
                                             <label class="mb-2">Price <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" name="price" required>
+                                            <input type="number" class="form-control" name="price" required>
                                             @error('price')
                                                  <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
                                                                                             </div>
                                     </div>
+
                                     <div class="col-md-4 col-lg-2">
                                         <div class="mb-3">
-                                            <label class="mb-2">Description <span class="text-danger">*</span></label>
-                                            <input type="text"  class="form-control" name="description"  required>
-                                            @error('description')
+                                            <label class="mb-2">Market Price <span class="text-danger">*</span></label>
+                                            <input type="number" class="form-control" name="market_price" required>
+                                            @error('market_price')
                                                  <div class="alert alert-danger">{{ $message }}</div>
-                                            @enderror
-
-                                            </div>
-                                    </div>
-                                   
-                                    <div class="col-md-4 col-lg-2">
-                                        <div class="mb-3">
-                                            <label class="mb-2">Status <span class="text-danger">*</span></label>
-                                            <select class="form-select" name="status">
-                                                <option value="1" >Enable</option>
-                                                <option value="2" >Disable</option>
-                                            </select>
-
-                                            @error('status')
-                                              <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
                                                                                             </div>
                                     </div>
+
+                                    <div class="col-md-4 col-lg-2">
+                                        <div class="mb-3">
+                                            <label class="mb-2">Weight <span class="text-danger">*</span></label>
+                                            <input type="number"  class="form-control" name="weight" value="" required>
+                                            @error('weight')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-lg-2">
+                                        <div class="mb-3">
+                                            <label class="mb-2">Availability (Qty) <span class="text-danger">*</span></label>
+                                            <input type="number"  class="form-control" name="availability" value="" required>
+                                            @error('availability')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-lg-2">
+                                        <div class="mb-3">
+                                            <label class="mb-2">Shipping (Day) <span class="text-danger">*</span></label>
+                                            <input type="number"  class="form-control" name="Shipping" value="" required>
+                                            @error('Shipping')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+
+                                   
                                     <div class="col-md-4 col-lg-2">
                                         <label class="mb-2">Upload Product Photo</label>
                                         <div class="input-group mb-3">
                                             <input type="file" name="product_image" class="form-control">
                                                                                             </div>
                                     </div>
+
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="mb-3">
+                                            <label class="mb-2">Description <span class="text-danger">*</span></label>
+                                            <textarea id="description" name="description" class="form-control" ></textarea>
+                                            @error('description')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    
+                                    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+                                    <script>
+                                        ClassicEditor
+                                            .create(document.querySelector('#description'))
+                                            .catch(error => {
+                                                console.error(error);
+                                            });
+                                    </script>
+
+
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="mb-3">
+                                            <label class="mb-2">Information <span class="text-danger">*</span></label>
+                                            <textarea id="information" name="information" class="form-control" ></textarea>
+                                            @error('information')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+                                    <script>
+                                        ClassicEditor
+                                            .create(document.querySelector('#information'))
+                                            .catch(error => {
+                                                console.error(error);
+                                            });
+                                    </script>
+                                                                        
+                                                                        <div class="col-md-4 col-lg-2">
+                                                                            <div class="mb-3">
+                                                                                <label class="mb-2">Status <span class="text-danger">*</span></label>
+                                                                                <select class="form-select" name="status">
+                                                                                    <option value="1" >Enable</option>
+                                                                                    <option value="2" >Disable</option>
+                                                                                </select>
+                                    
+                                                                                @error('status')
+                                                                                  <div class="alert alert-danger">{{ $message }}</div>
+                                                                                @enderror
+                                                                                                                                </div>
+                                                                        </div>
                                     <div class="col-md-4 col-lg-2">
                                             <div class="mb-2">
                                                 <label class="mb-3" ></label>
@@ -143,8 +217,11 @@
                                         <th> Category Name</th>
                                         <th>Product Name</th>
                                         <th>Price</th>
-                                        <th>Description</th>
-                                        <th>Status</th>                                                
+                                        <th> Market Price</th>
+                                        <th>Weight</th>
+                                        <th>Availability (Qty) </th>
+                                        <th>Shipping (Day)</th> 
+                                        <th>Status</th>                                               
                                         <th >Action</th>   
                                       </tr>
                                     </thead>
@@ -154,9 +231,12 @@
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
                                             <td>{{optional($iProduct->category)->category_name}}</td>
-                                            <td>{{$iProduct->price}}</td>   
-                                            <td>{{$iProduct->product_name}}</td>
-                                            <td>{{$iProduct->description}}</td>
+                                            <td>{{$iProduct->product_name}}</td>   
+                                            <td>{{$iProduct->price}}</td>
+                                            <td>{{$iProduct->market_price}}</td>
+                                            <td>{{$iProduct->weight}}</td>
+                                            <td>{{$iProduct->availability}}</td>
+                                            <td>{{$iProduct->Shipping}}</td>
                                             <td>@if ($iProduct->status==1)
                                                         Enable
                                                 @else
@@ -170,7 +250,12 @@
                                                  '{{$iProduct->price}}',
                                                  '{{$iProduct->product_name}}',
                                                   '{{$iProduct->description}}',
-                                                   '{{$iProduct->status}}'
+                                                   '{{$iProduct->information}}',
+                                                   '{{$iProduct->status}}',
+                                                   '{{$iProduct->market_price}}',
+                                                   '{{$iProduct->weight}}',
+                                                   '{{$iProduct->availability}}',
+                                                   '{{$iProduct->Shipping}}'
                                                  )" data-bs-toggle="modal" data-bs-target="#update-staff"><i class="las la-pen text-success  font-18"></i></a>
                                                  <a href="{{route('management.delete-product',["p_id"=>$iProduct->id])}}"><i class="las la-trash-alt text-danger font-18"></i></a>
                                              </td>

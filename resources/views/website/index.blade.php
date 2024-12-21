@@ -12,7 +12,7 @@
                     @foreach ($AllCategory as $category )
                     <div class="col-lg-3">
                         <div class="categories__item set-bg" data-setbg="{{ asset('storage/'.$category->image ) }}">
-                            <h5><a href="#">{{$category->category_name}}</a></h5>
+                            <h5><a href="{{route('home',['category'=>$category->id])}}">{{$category->category_name}}</a></h5>
                         </div>
                     </div>  
                     @endforeach
@@ -33,23 +33,33 @@
                     <div class="featured__controls">
                         <ul>
                             <li class="active" data-filter="*">All</li>
-                            @foreach ($AllCategory as $category )
-                            <li data-filter=".oranges">{{$category->category_name}}</li>
+                            @foreach ($AllCategory as $category)
+                                <li data-filter=".category{{ $category->id }}">{{ $category->category_name }}</li>
                             @endforeach
                         </ul>
                     </div>
+
                 </div>
             </div>
             <div class="row featured__filter">
-
                 @foreach ($AllProduct as $Product )
-                <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
+                <div class="col-lg-3 col-md-4 col-sm-6 mix category{{$Product->cat_id}}">
                     <div class="featured__item">
                         <div class="featured__item__pic set-bg" data-setbg="{{ asset('storage/'.$Product->image ) }}">
                             <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                <li><a href="{{route('add-favorite',["p_id"=>$Product->id])}}"><i class="fa fa-heart"></i></a></li>
                                 <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                <li>
+
+                                    <form action="{{ route('add-to-cart', $Product->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-outline-dark">
+                                            <i class="fa fa-shopping-cart"></i>
+                                        </button>
+                                    </form>
+
+                                </li>
+
                             </ul>
                         </div>
                         <div class="featured__item__text">
@@ -58,24 +68,23 @@
                         </div>
                     </div>
                 </div>
-                @endforeach
+                @endforeach      
             </div>
         </div>
     </section>
     <!-- Featured Section End -->
-
     <!-- Banner Begin -->
     <div class="banner">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="banner__pic">
-                        <img src="img/banner/banner-1.jpg" alt="">
+                        <img src="{{asset('asset/img/banner/banner-1.jpg')}}" alt="">
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="banner__pic">
-                        <img src="img/banner/banner-2.jpg" alt="">
+                        <img src="{{asset('asset/img/banner/banner-2.jpg')}}" alt="">
                     </div>
                 </div>
             </div>
@@ -104,10 +113,8 @@
                                     </div>
                                 </a> 
                                 @endforeach
-    
                             </div>
                             <div class="latest-prdouct__slider__item">
-
                                 @foreach ($LatestProduct as $iLatestProduct )
                                 <a href="{{route('shop-details',["id"=>$iLatestProduct->id])}}" class="latest-product__item">
                                     <div class="latest-product__item__pic">
@@ -124,6 +131,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="col-lg-4 col-md-6">
                     <div class="latest-product__text">
                         <h4>Top Rated Products</h4>
@@ -139,8 +147,7 @@
                                         <span>${{$iTopProduct->price}}</span>
                                     </div>
                                 </a>  
-                                @endforeach
-                              
+                                @endforeach       
                             </div>
                             <div class="latest-prdouct__slider__item">
                                 @foreach ($TopProduct as $iTopProduct )
@@ -158,6 +165,7 @@
                         </div>
                     </div>
                 </div>
+            
                 <div class="col-lg-4 col-md-6">
                     <div class="latest-product__text">
                         <h4>Review Products</h4>
@@ -208,51 +216,24 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-6">
+                @foreach ($blog as $iblog )
+                <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="blog__item">
                         <div class="blog__item__pic">
-                            <img src="{{asset('asset/img/blog/blog-1.jpg')}}" alt="">
+                            <!-- Add inline CSS to fix the image size -->
+                            <img src="{{ asset('storage/'.$iblog->image ) }}" alt="" style="width: 100%; height: 200px; object-fit: cover;">
                         </div>
                         <div class="blog__item__text">
                             <ul>
-                                <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
-                                <li><i class="fa fa-comment-o"></i> 5</li>
+                                <li><i class="fa fa-calendar-o"></i> {{$iblog->published_at}}</li>
+                                <li><i class="fa fa-comment-o"></i> {{$iblog->comments_count}}</li>
                             </ul>
-                            <h5><a href="{{route('blog-details')}}">Cooking tips make cooking simple</a></h5>
-                            <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
+                            <h5><a href="{{route('blog-details',["id"=>$iblog->id])}}">{{$iblog->title}}t </p>
+                            <a href="{{route('blog-details',["id"=>$iblog->id])}}" class="blog__btn">READ MORE <span class="arrow_right"></span></a>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic">
-                            <img src="img/blog/blog-2.jpg" alt="">
-                        </div>
-                        <div class="blog__item__text">
-                            <ul>
-                                <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
-                                <li><i class="fa fa-comment-o"></i> 5</li>
-                            </ul>
-                            <h5><a href="#">6 ways to prepare breakfast for 30</a></h5>
-                            <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic">
-                            <img src="img/blog/blog-3.jpg" alt="">
-                        </div>
-                        <div class="blog__item__text">
-                            <ul>
-                                <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
-                                <li><i class="fa fa-comment-o"></i> 5</li>
-                            </ul>
-                            <h5><a href="#">Visit the clean farm in the US</a></h5>
-                            <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
-                        </div>
-                    </div>
-                </div>
+            @endforeach
             </div>
         </div>
     </section>

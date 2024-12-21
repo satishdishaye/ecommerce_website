@@ -47,15 +47,49 @@
                         @enderror
                     </div>
                 </div>
+
+
                 <div class="col-md-4 col-lg-4">
                     <div class="mb-3">
-                        <label class="mb-2">Description<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="update_description" name="update_description" required>
-                        @error('update_description')
-                          <div class="alert alert-danger">{{ $message }}</div>
+                        <label class="mb-2">Market Price <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" name="update_market_price" id="update_market_price" required>
+                        @error('update_market_price')
+                             <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                                                                        </div>
+                </div>
+
+                <div class="col-md-4 col-lg-4">
+                    <div class="mb-3">
+                        <label class="mb-2">Weight <span class="text-danger">*</span></label>
+                        <input type="number"  class="form-control" name="update_weight" id="update_weight" required>
+                        @error('update_weight')
+                        <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
+
+                <div class="col-md-4 col-lg-4">
+                    <div class="mb-3">
+                        <label class="mb-2">Availability (Qty) <span class="text-danger">*</span></label>
+                        <input type="number"  class="form-control" name="update_availability" id="update_availability" required>
+                        @error('update_availability')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-lg-4">
+                    <div class="mb-3">
+                        <label class="mb-2">Shipping (Day) <span class="text-danger">*</span></label>
+                        <input type="number"  class="form-control" name="update_Shipping" id="update_Shipping" required>
+                        @error('update_Shipping')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+               
                
               
                 <div class="col-md-4 col-lg-4">
@@ -70,6 +104,9 @@
                          @enderror
                     </div>
                 </div>
+
+
+                
                
                 <div class="col-md-4 col-lg-4">
                     <label class="mb-2">Upload Profile Photo</label>
@@ -79,7 +116,33 @@
                     </div>
                   
                 </div>
+
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="mb-3">
+                        <label class="mb-2">Description <span class="text-danger">*</span></label>
+                        <textarea id="update_description" name="update_description" class="form-control" ></textarea>
+                        @error('description')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
                 
+             
+                
+
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="mb-3">
+                        <label class="mb-2">Information <span class="text-danger">*</span></label>
+                        <textarea id="update_information" name="update_information" class="form-control" ></textarea>
+                        @error('information')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+           
             </div>
           
         </div>
@@ -93,15 +156,65 @@
     </div>
   </div>
 </div><!-- container -->
-
+<script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
 
 <script>
-    function update_product(id,cat_id,price,product_name,description,status){
-      $('#id').val(id);
-      $('#update_cat_id').val(cat_id);
-      $('#update_price').val(price);
-      $('#update_product_name').val(product_name);
-      $('#update_description').val(description);
-      $('#update_status').val(status);
+  // Declare editor instances globally
+  let editorInstanceDescription;
+  let editorInstanceInformation;
+
+  // Function to initialize CKEditor instances
+  function initEditors() {
+    // Initialize the description editor if not already initialized
+    if (!editorInstanceDescription) {
+      ClassicEditor
+        .create(document.querySelector('#update_description'))
+        .then(editor => {
+          editorInstanceDescription = editor;
+          // After initializing, set data immediately
+          if (editorInstanceDescription && window.descriptionData) {
+            editorInstanceDescription.setData(window.descriptionData);
+          }
+        })
+        .catch(error => {
+          console.error('Error initializing editor for description:', error);
+        });
     }
-    </script>
+
+    // Initialize the information editor if not already initialized
+    if (!editorInstanceInformation) {
+      ClassicEditor
+        .create(document.querySelector('#update_information'))
+        .then(editor => {
+          editorInstanceInformation = editor;
+          // After initializing, set data immediately
+          if (editorInstanceInformation && window.informationData) {
+            editorInstanceInformation.setData(window.informationData);
+          }
+        })
+        .catch(error => {
+          console.error('Error initializing editor for information:', error);
+        });
+    }
+  }
+
+  // Function to update the product details and initialize editors
+  function update_product(id, cat_id, price, product_name, description, information, status, market_price, weight, availability, Shipping) {
+    $('#id').val(id);
+    $('#update_cat_id').val(cat_id);
+    $('#update_price').val(price);
+    $('#update_product_name').val(product_name);
+    $('#update_status').val(status);
+    $('#update_market_price').val(market_price);
+    $('#update_weight').val(weight);
+    $('#update_availability').val(availability);
+    $('#update_Shipping').val(Shipping);
+
+    // Store the description and information data globally to set later
+    window.descriptionData = description;
+    window.informationData = information;
+
+    // Initialize CKEditor instances if not already initialized
+    initEditors();
+  }
+</script>

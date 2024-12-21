@@ -19,8 +19,6 @@ class ManagementAuthController extends Controller
         return view('management.auth.login');
 
     }
-
-
     public function managementLoginPost(Request $request)
     {
 

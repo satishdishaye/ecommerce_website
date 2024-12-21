@@ -41,14 +41,14 @@
                 <div class="main-icon-menu-body">
                     <div class="position-reletive h-100" data-simplebar style="overflow-x: hidden;">
                         <ul class="nav nav-tabs" role="tablist" id="tab-menu">
-                            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Vendors Management" data-bs-trigger="hover">
-                                <a href="#vendorManage" id="vendor-management" class="nav-link">
+                            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Product Management" data-bs-trigger="hover">
+                                <a href="#productManage"  class="nav-link">
                                     <i class="ti ti-building menu-icon"></i>
                                 </a><!--end nav-link-->
                             </li><!--end nav-item-->
 
-                            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Bookings Management" data-bs-trigger="hover">
-                                <a href="#bookingManage" id="dashboard-tab" class="nav-link">
+                            <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Orders Management" data-bs-trigger="hover">
+                                <a href="#orderManage"  id="orders-management" class="nav-link">
                                     <i class="ti ti-box menu-icon"></i>
                                 </a><!--end nav-link-->
                             </li><!--end nav-item-->
@@ -67,7 +67,7 @@
                             </li><!--end nav-item-->
 
                             <li class="nav-item" data-bs-toggle="tooltip" data-bs-placement="right" title="Settings" data-bs-trigger="hover">
-                                <a href="#settings" id="dashboard-tab" class="nav-link">
+                                <a href="#settings" class="nav-link">
                                     <i class="ti ti-adjustments menu-icon"></i>
                                 </a><!--end nav-link-->
                             </li><!--end nav-item-->
@@ -95,33 +95,13 @@
                 </div><!--end topbar-left-->
                 <!--end logo-->
                 <div class="menu-body navbar-vertical tab-content" data-simplebar>
-                    <div id="vendorManage" class="main-icon-menu-pane tab-pane" role="tabpanel"
-                        aria-labelledby="vendor-management">
-                        <div class="title-box">
-                            <h6 class="menu-title">Project Management</h6>
-                        </div>
 
-                        <ul class="nav flex-column">
-                       
-                            <li class="nav-item">
-                              
-                            {{-- @if (session('management')->role_id=='1')  <a class='nav-link' href="">Project Panel</a>   @endif --}}
-                            </li><!--end nav-item-->
-                        </ul><!--end nav-->
-                    </div><!-- end Vendors Management -->
-                    <div id="bookingManage" class="main-icon-menu-pane tab-pane" role="tabpanel"
-                        aria-labelledby="booking-management">
+                    <div id="productManage" class="main-icon-menu-pane tab-pane" role="tabpanel"aria-labelledby="product-management">
                         <div class="title-box">
                             <h6 class="menu-title">Product Management</h6>
                         </div>
 
                         <ul class="nav flex-column">
-                            <li class="nav-item">
-                            {{-- @if (session('management')->role_id=='1') <a class='nav-link' href="">Leads Management</a>   @endif --}}
-                            </li>
-                            <!-- <li class="nav-item">
-                                <a class='nav-link' href='#'>Add Cash Booking</a>
-                            </li> -->
                             <li class="nav-item">
                                 <a class='nav-link' href="{{route('management.product-management')}}">Add - Product</a>
                             </li><!--end nav-item-->
@@ -129,13 +109,27 @@
                             <li class="nav-item">
                                 <a class='nav-link' href="{{route('management.category-management')}}"> Category Management</a>
                             </li><!--end nav-item-->
+                        </ul><!--end nav-->
+                    </div><!-- end Bookings Management -->
+
+
+                    <div id="orderManage" class="main-icon-menu-pane tab-pane" role="tabpanel"
+                        aria-labelledby="orders-management">
+                        <div class="title-box">
+                            <h6 class="menu-title">Orders Management</h6>
+                        </div>
+                        <ul class="nav flex-column">
+                           <li class="nav-item">
+                                <a class='nav-link' href="{{route('management.order-management')}}">Show Orders </a> 
+                            </li><!--end nav-item-->
 
                             <li class="nav-item">
-                                <a class='nav-link' href=""></a>
+                                <a class='nav-link' href="{{route('management.order-details')}}">Orders Details</a> 
                             </li><!--end nav-item-->
 
                         </ul><!--end nav-->
-                    </div><!-- end Bookings Management -->
+                    </div><!-- end Vendors Management -->
+                   
                     <!-- end COD Invoices & Payments -->
 
                     <div id="hrManage" class="main-icon-menu-pane tab-pane" role="tabpanel"
@@ -157,15 +151,15 @@
                     <div id="compManage" class="main-icon-menu-pane tab-pane" role="tabpanel"
                         aria-labelledby="company-management">
                         <div class="title-box">
-                            <h6 class="menu-title">Company Management</h6>
+                            <h6 class="menu-title">Blog Management</h6>
                         </div>
 
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class='nav-link' href='#'>Office Expenses</a>
+                                <a class='nav-link' href='{{route('management.blog-category')}}'>Blog Category</a>
                             </li><!--end nav-item-->
                             <li class="nav-item">
-                                <a class='nav-link' href='#'>Announcements</a>
+                                <a class='nav-link' href='{{route('management.blog-management')}}'>Add Blogs</a>
                             </li><!--end nav-item-->
                         </ul><!--end nav-->
                     </div><!-- end Company Management -->
@@ -179,8 +173,8 @@
                         <ul class="nav flex-column">
                            
                             <li class="nav-item">
-                                <a class='nav-link' href=''>Project Status</a>
-                            </li><!--end nav-item-->
+                                <a class='nav-link' href="{{route('management.coupon')}}">Manage Coupon</a>
+                            </li>
 
                             <li class="nav-item">
                                 <a class='nav-link' href='#'>Roles & Permissions</a>

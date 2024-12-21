@@ -6,16 +6,14 @@
 
   
     <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="{{asset('asset/img/breadcrumb.jpg')}}">
+    <section class="breadcrumb-section set-bg" data-setbg="{{ asset('asset/img/breadcrumb.jpg') }}">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2>Vegetable’s Package</h2>
+                        <h2>Contact Us</h2>
                         <div class="breadcrumb__option">
-                            <a href="./index.html">Home</a>
-                            <a href="./index.html">Vegetables</a>
-                            <span>Vegetable’s Package</span>
+                          {!! breadcrumbs() !!}
                         </div>
                     </div>
                 </div>
@@ -32,7 +30,7 @@
                     <div class="product__details__pic">
                         <div class="product__details__pic__item">
                             <img class="product__details__pic__item--large"
-                                src="{{asset('asset/img/product/details/product-details-1.jpg')}}" alt="">
+                                src="{{ asset('storage/'.$product_detail->image ) }}" alt="">
                         </div>
                         <div class="product__details__pic__slider owl-carousel">
                             <img data-imgbigurl="img/product/details/product-details-2.jpg"
@@ -58,19 +56,37 @@
                             <span>(18 reviews)</span>
                         </div>
                         <div class="product__details__price">${{$product_detail->price}}</div>
-                        <p>{{$product_detail->description}}</p>
-                        <div class="product__details__quantity">
-                            <div class="quantity">
-                                <div class="pro-qty">
-                                    <input type="text" value="1">
+                        <p>{{$product_detail->product_name}}</p><div class="product__details__quantity" style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                            <!-- Quantity Section -->
+                            
+                        
+                            <!-- Add to Cart Button -->
+                            <form action="{{ route('add-to-cart', $product_detail->id) }}" method="POST" style="display: flex; justify-content: center; width: auto;">
+                                <div class="quantity" style="width: auto; text-align: center;">
+                                    <div class="pro-qty">
+                                        <input type="text" value="1" name="qty" style="width: 50px; padding: 5px; font-size: 14px;">
+                                    </div>
                                 </div>
-                            </div>
+
+                                @csrf
+                                <button type="submit" class="primary-btn" style="padding: 5px 15px; font-size: 14px;">
+                                    ADD TO CART
+                                </button>
+                            </form>
+                        
+                            <!-- Heart Icon -->
+                            <a href="{{route('add-favorite',["p_id"=>$product_detail->id])}}" class="heart-icon" style="text-align: center; width: auto;">
+                                <span class="icon_heart_alt" style="font-size: 24px;"></span>
+                            </a>
                         </div>
-                        <a href="#" class="primary-btn">ADD TO CARD</a>
-                        <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                        
                         <ul>
-                            <li><b>Availability</b> <span>In Stock</span></li>
-                            <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
+                            <li><b>Availability</b> <span>@if ($product_detail->availability >0)
+                                In Stock
+                                @else
+                                Out Of Stock
+                            @endif </span></li>
+                            <li><b>Shipping</b> <span>{{$product_detail->Shipping}} day shipping. <samp>Free pickup today</samp></span></li>
                             <li><b>Weight</b> <span>0.5 kg</span></li>
                             <li><b>Share on</b>
                                 <div class="share">
@@ -102,62 +118,17 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                 <div class="product__details__tab__desc">
-                                    <h6>Products Infomation</h6>
-                                    <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
-                                        Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus. Vivamus
-                                        suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam sit amet quam
-                                        vehicula elementum sed sit amet dui. Donec rutrum congue leo eget malesuada.
-                                        Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur arcu erat,
-                                        accumsan id imperdiet et, porttitor at sem. Praesent sapien massa, convallis a
-                                        pellentesque nec, egestas non nisi. Vestibulum ac diam sit amet quam vehicula
-                                        elementum sed sit amet dui. Vestibulum ante ipsum primis in faucibus orci luctus
-                                        et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam
-                                        vel, ullamcorper sit amet ligula. Proin eget tortor risus.</p>
-                                        <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Lorem
-                                        ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit aliquet
-                                        elit, eget tincidunt nibh pulvinar a. Cras ultricies ligula sed magna dictum
-                                        porta. Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus
-                                        nibh. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.
-                                        Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Sed
-                                        porttitor lectus nibh. Vestibulum ac diam sit amet quam vehicula elementum
-                                        sed sit amet dui. Proin eget tortor risus.</p>
+                                  {!! $product_detail->description !!}
                                 </div>
                             </div>
                             <div class="tab-pane" id="tabs-2" role="tabpanel">
                                 <div class="product__details__tab__desc">
-                                    <h6>Products Infomation</h6>
-                                    <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
-                                        Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.
-                                        Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam
-                                        sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo
-                                        eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.
-                                        Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent
-                                        sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac
-                                        diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante
-                                        ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
-                                        Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.
-                                        Proin eget tortor risus.</p>
-                                    <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Lorem
-                                        ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit aliquet
-                                        elit, eget tincidunt nibh pulvinar a. Cras ultricies ligula sed magna dictum
-                                        porta. Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus
-                                        nibh. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.</p>
+                                    {!! $product_detail->information !!}
                                 </div>
                             </div>
                             <div class="tab-pane" id="tabs-3" role="tabpanel">
                                 <div class="product__details__tab__desc">
-                                    <h6>Products Infomation</h6>
-                                    <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
-                                        Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.
-                                        Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam
-                                        sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo
-                                        eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.
-                                        Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent
-                                        sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac
-                                        diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante
-                                        ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
-                                        Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.
-                                        Proin eget tortor risus.</p>
+                                    Not Reviews
                                 </div>
                             </div>
                         </div>
@@ -180,24 +151,31 @@
             </div>
             <div class="row">
 
-
                 @foreach ($related_product as $irelated_product )
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/product-1.jpg">
+                        <div class="product__item__pic set-bg" data-setbg="{{ asset('storage/'.$irelated_product->image ) }}">
                             <ul class="product__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                <li><a href="{{route('add-favorite',["p_id"=>$irelated_product->id])}}"><i class="fa fa-heart"></i></a></li>
                                 <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                <li>
+                                    <form action="{{ route('add-to-cart', $irelated_product->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-outline-dark">
+                                            <i class="fa fa-shopping-cart"></i>
+                                        </button>
+                                    </form>
+                                </li>
                             </ul>
                         </div>
                         <div class="product__item__text">
-                            <h6><a href="#">{{$irelated_product->product_name}}</a></h6>
+                            <h6><a href="{{route('shop-details',["id"=>$irelated_product->id])}}">{{$irelated_product->product_name}}</a></h6>
                             <h5>{{$irelated_product->price}}</h5>
                         </div>
                     </div>
                 </div>
-                @endforeach
+            @endforeach
+            
               
             </div>
         </div>
