@@ -9,19 +9,15 @@ use App\models\Order;
 use App\models\OrderDetail;
 use Illuminate\Support\Facades\Route;
 use App\models\Blog;
+use App\models\Banner;
+
 
 class HomeController extends Controller
 {
     public function home(Request $request)
     {   
-        $formAction = Route::has('shop-grid');
-
-        // dd( Route::currentRouteName());
-
-        $AllCategory= Category::where('status',1)->get();
-
+        $allCategory= Category::where('status',1)->get();
         $allProduct= Product::where('status',1);
-
         if($request->search){
             $allProduct->where('product_name',$request->search);
         }
@@ -29,22 +25,28 @@ class HomeController extends Controller
         if($request->category){
             $allProduct->where('cat_id',$request->category);
         }
-
-        $LatestProduct= Product::where('status',1)->get();
-        $TopProduct= Product::where('status',1)->get();
-        $ReviewProduct= Product::where('status',1)->get();
+        $latestProduct= Product::where('status',1)->get();
+        $topProduct= Product::where('status',1)->get();
+        $reviewProduct= Product::where('status',1)->get();
   
         $allProduct=$allProduct->get();
         $blog= Blog::get();
 
+        $home1= Banner::where('type','Home')->where('name','Home 1')->first();
+        $home2= Banner::where('type','Home')->where('name','Home 2')->first();
+        $home3= Banner::where('type','Home')->where('name','Home 3')->first();
+
          return view("website.index",[
             
-            "AllCategory"=>$AllCategory,
+            "AllCategory"=>$allCategory,
             "AllProduct"=>$allProduct,
-            "LatestProduct"=>$LatestProduct,
-            "TopProduct"=>$TopProduct,
-            "ReviewProduct"=>$ReviewProduct,
-            "blog"=>$blog
+            "LatestProduct"=>$latestProduct,
+            "TopProduct"=>$topProduct,
+            "ReviewProduct"=>$reviewProduct,
+            "blog"=>$blog,
+            "home1"=>$home1,
+            "home2"=>$home2,
+            "home3"=>$home3
         ]);
     } 
 
@@ -55,7 +57,7 @@ class HomeController extends Controller
         $formAction = Route::has('shop-grid');
 
         // dd( Route::currentRouteName())
-        $AllCategory= Category::where('status',1)->get();
+        $allCategory= Category::where('status',1)->get();
         $favorite = session()->get('favorite', []);
         $productIds = array_keys($favorite); 
 
@@ -69,20 +71,26 @@ class HomeController extends Controller
 
        
 
-        $LatestProduct= Product::where('status',1)->get();
-        $TopProduct= Product::where('status',1)->get();
-        $ReviewProduct= Product::where('status',1)->get();
+        $latestProduct= Product::where('status',1)->get();
+        $topProduct= Product::where('status',1)->get();
+        $reviewProduct= Product::where('status',1)->get();
   
         $blog= Blog::get();
 
-         return view("website.index",[
-            
-            "AllCategory"=>$AllCategory,
+        $home1= Banner::where('type','Home')->where('name','Home 1')->first();
+        $home2= Banner::where('type','Home')->where('name','Home 2')->first();
+        $home3= Banner::where('type','Home')->where('name','Home 3')->first();
+
+         return view("website.index",[ 
+            "AllCategory"=>$allCategory,
             "AllProduct"=>$allProduct,
-            "LatestProduct"=>$LatestProduct,
-            "TopProduct"=>$TopProduct,
-            "ReviewProduct"=>$ReviewProduct,
-            "blog"=>$blog
+            "LatestProduct"=>$latestProduct,
+            "TopProduct"=>$topProduct,
+            "ReviewProduct"=>$reviewProduct,
+            "blog"=>$blog,
+            "home1"=>$home1,
+            "home2"=>$home2,
+            "home3"=>$home3
         ]);
     } 
 

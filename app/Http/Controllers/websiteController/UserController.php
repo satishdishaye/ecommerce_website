@@ -6,11 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\URL;
 
 class UserController extends Controller
 {
     public function userLogin(Request $request)
     {
+
+        session()->put('lastRoute',URL::previous());
         return view('website.login', [
         ]);
     }
@@ -30,7 +33,8 @@ class UserController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/');
+           
+            return redirect(session('lastRoute'));
         }
 
         return back()->withErrors([

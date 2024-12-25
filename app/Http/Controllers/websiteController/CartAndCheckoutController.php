@@ -158,6 +158,14 @@ class CartAndCheckoutController extends Controller
     public function applycoupon(Request $request)
     {
         if (Auth::check()) {
+            if(session('coupon_code')){
+
+                session()->forget('coupon_code');
+                session()->forget('coupon');
+                return redirect()->back()->with('success', 'Remove Coupon!');
+
+            }
+
 
           $coupon=Coupon::where('code',$request->code)->first();
           if($coupon)
@@ -321,7 +329,11 @@ class CartAndCheckoutController extends Controller
                  'amount' => (int) $order->total * 100,
                 'currency' => 'INR',
             ]);
-            $order->update(['razorpay_order_id' => $razorpayOrder['id']]);
+            
+
+            // dd($razorpayOrder['id']);
+            // $order->update(['razorpay_order_id' => $razorpayOrder['id']]);
+
             // Pass necessary data to the payment view
 
             session()->forget('coupon_code');
@@ -378,8 +390,6 @@ class CartAndCheckoutController extends Controller
       }
     }
 
-
-    
     public function addFavorite(Request $request, $productId)
     { 
         $product = Product::find($productId);
@@ -401,6 +411,12 @@ class CartAndCheckoutController extends Controller
             return redirect()->back()->with('success', 'Product added to favorite!');
         }
 
-        return redirect()->back()->with('success', 'Product is already in the favorite.');
+        unset($favorite[$productId]);
+
+        // Update the session
+        session()->put('favorite', $favorite);
+    
+        return redirect()->back()->with('success', 'Product removed from favorite!');
+
     }
 }

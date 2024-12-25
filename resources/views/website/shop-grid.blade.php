@@ -5,7 +5,7 @@
   
 
     <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="{{ asset('asset/img/breadcrumb.jpg') }}">
+    <section class="breadcrumb-section set-bg" data-setbg="{{ asset('storage/'.$shop->banner_image) }}">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -19,13 +19,6 @@
             </div>
         </div>
     </section>
-
-
-    <!-- Breadcrumb Section End -->
-    <!-- Product Section Begin -->
-
-
-
     <section class="product spad">
         <div class="container">
             <div class="row">
@@ -36,7 +29,7 @@
                             <ul>
 
                                 @foreach ($allCategory as $iallCategory )
-                                <li><a href="">{{ $iallCategory->category_name}}</a></li>
+                                <li><a href="{{ route('shop-grid',['category'=>$iallCategory->id]) }}">{{ $iallCategory->category_name}}</a></li>
                                 @endforeach
     
                             </ul>
@@ -60,74 +53,6 @@
                                 </div>
                             </div>
                         </form>
-
-
-                        <div class="sidebar__item sidebar__item__color--option">
-                            <h4>Colors</h4>
-                            <div class="sidebar__item__color sidebar__item__color--white">
-                                <label for="white">
-                                    White
-                                    <input type="radio" id="white">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__color sidebar__item__color--gray">
-                                <label for="gray">
-                                    Gray
-                                    <input type="radio" id="gray">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__color sidebar__item__color--red">
-                                <label for="red">
-                                    Red
-                                    <input type="radio" id="red">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__color sidebar__item__color--black">
-                                <label for="black">
-                                    Black
-                                    <input type="radio" id="black">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__color sidebar__item__color--blue">
-                                <label for="blue">
-                                    Blue
-                                    <input type="radio" id="blue">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__color sidebar__item__color--green">
-                                <label for="green">
-                                    Green
-                                    <input type="radio" id="green">
-                                </label>
-                            </div>
-                        </div>
-                        <div class="sidebar__item">
-                            <h4>Popular Size</h4>
-                            <div class="sidebar__item__size">
-                                <label for="large">
-                                    Large
-                                    <input type="radio" id="large">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__size">
-                                <label for="medium">
-                                    Medium
-                                    <input type="radio" id="medium">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__size">
-                                <label for="small">
-                                    Small
-                                    <input type="radio" id="small">
-                                </label>
-                            </div>
-                            <div class="sidebar__item__size">
-                                <label for="tiny">
-                                    Tiny
-                                    <input type="radio" id="tiny">
-                                </label>
-                            </div>
-                        </div>
                         <div class="sidebar__item">
                             <div class="latest-product__text">
                                 <h4>Latest Products</h4>
@@ -171,7 +96,9 @@
                         </div>
                         <div class="row">
                             <div class="product__discount__slider owl-carousel">
-
+                                @php
+                                $favorite = session()->get('favorite', []);
+                                 @endphp
                                 @foreach ($allProduct as $iallProduct )
                                 <div class="col-lg-4">
                                     <div class="product__discount__item">
@@ -179,8 +106,13 @@
                                             data-setbg="{{ asset('storage/'.$iallProduct->image ) }}">
                                             <div class="product__discount__percent">-20%</div>
                                             <ul class="product__item__pic__hover">
-                                                <li><a href="{{route('add-favorite',["p_id"=>$iallProduct->id])}}"><i class="fa fa-heart"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                                <li>
+                                                    <a href="{{ route('add-favorite', ['p_id' => $iallProduct->id]) }}">
+                                                        <i class="fa fa-heart" 
+                                                           style="@if(array_key_exists($iallProduct->id, session()->get('favorite', []))) color: red; @endif">
+                                                        </i>
+                                                    </a>
+                                                </li>                                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
                                                 <li>
                                                     <form action="{{ route('add-to-cart', $iallProduct->id) }}" method="POST">
                                                         @csrf
@@ -234,8 +166,13 @@
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" data-setbg="{{ asset('storage/'.$ilatestProduct->image ) }}">
                                     <ul class="product__item__pic__hover">
-                                        <li><a href="{{route('add-favorite',["p_id"=>$ilatestProduct->id])}}"><i class="fa fa-heart"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                        <li>
+                                            <a href="{{ route('add-favorite', ['p_id' => $ilatestProduct->id]) }}">
+                                                <i class="fa fa-heart" 
+                                                   style="@if(array_key_exists($ilatestProduct->id, session()->get('favorite', []))) color: red; @endif">
+                                                </i>
+                                            </a>
+                                        </li>                                            <li><a href="#"><i class="fa fa-retweet"></i></a></li>
                                         <li>
                                             <form action="{{ route('add-to-cart', $ilatestProduct->id) }}" method="POST">
                                                 @csrf

@@ -4,9 +4,9 @@
 @section('content')
   
 
- 
+   
     <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="{{asset('asset/img/breadcrumb.jpg')}}">
+    <section class="breadcrumb-section set-bg" data-setbg="{{ asset('storage/'.$blogBanner->banner_image) }}">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -57,22 +57,18 @@
                               @endforeach
                             </div>
                         </div>
-                        <div class="blog__sidebar__item">
-                            <h4>Search By</h4>
-                            <div class="blog__sidebar__item__tags">
-                                <a href="#">Apple</a>
-                                <a href="#">Beauty</a>
-                                <a href="#">Vegetables</a>
-                                <a href="#">Fruit</a>
-                                <a href="#">Healthy Food</a>
-                                <a href="#">Lifestyle</a>
-                            </div>
-                        </div>
+                      
                     </div>
                 </div>
+
+
+
+            
+
+
+
                 <div class="col-lg-8 col-md-7">
                     <div class="row">
-
                         @foreach ($blog as $iblog )
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="blog__item">

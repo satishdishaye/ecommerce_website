@@ -59,6 +59,11 @@ Route::prefix('/management')->group(function() {
         Route::post('update-coupon', [CouponController::class, 'updateCoupon'])->name('management.update-coupon');
         Route::get('delete-coupon/{id}', [CouponController::class, 'deleteCoupon'])->name('management.delete-coupon');
 
+        Route::get('banner', [MagamentController::class, 'banner'])->name('management.banner');
+        Route::post('add-banner', [MagamentController::class, 'addBanner'])->name('management.add-banner');
+        Route::post('update-banner', [MagamentController::class, 'updateBanner'])->name('management.update-banner');
+        Route::get('delete-banner/{id}', [MagamentController::class, 'deleteBanner'])->name('management.delete-banner');
+
 
         Route::get('blog-management', [BlogManagement::class, 'blogManagement'])->name('management.blog-management');
         Route::post('add-blog', [BlogManagement::class, 'addBlog'])->name('management.add-blog');
@@ -113,10 +118,6 @@ Route::get('blog-details', [BlogController::class, 'blogDetails'])->name('blog-d
 Route::get('contact', [ContactController::class, 'contact'])->name('contact');
 Route::post('send-contact', [ContactController::class, 'sendContact'])->name('send-contact');
 Route::post('newsletter/subscribe', [ContactController::class, 'subscribe'])->name('newsletter.subscribe');
-
-
-
-
 
 Route::post('/verify-payment', [CartAndCheckoutController::class, 'verifyPayment'])->name('verify.payment');
 

@@ -8,6 +8,8 @@ use App\models\Category;
 use Illuminate\Support\Facades\Auth;
 use App\models\Order;
 use App\models\OrderDetail;
+use App\models\Banner;
+
 
 
 class ShopController extends Controller
@@ -16,9 +18,7 @@ class ShopController extends Controller
     {
 
 
-        $allCategory= Category::where('status',1)->get();
-
-       
+        $allCategory= Category::where('status',1)->get(); 
         $allProduct= Product::where('status',1);
 
         if($request->search){
@@ -57,10 +57,10 @@ class ShopController extends Controller
         }
         $latestProduct=$latestProduct->paginate(3);
 
-
-
         $topProduct= Product::where('status',1)->get();
         $reviewProduct= Product::where('status',1)->get();
+
+        $shop= Banner::where('type','Shop')->first();
 
          return view("website.shop-grid",[
             
@@ -68,7 +68,8 @@ class ShopController extends Controller
             "allProduct"=>$allProduct,
             "latestProduct"=>$latestProduct,
             "topProduct"=>$topProduct,
-            "reviewProduct"=>$reviewProduct
+            "reviewProduct"=>$reviewProduct,
+            "shop"=>$shop
         ]);
     }
 
@@ -78,10 +79,13 @@ class ShopController extends Controller
     {   
         $product_detail= Product::where('status',1)->where("id",$request->id)->first();
         $related_product= Product::where('status',1)->where('cat_id', $product_detail->cat_id)->get();
+        $shopDetail= Banner::where('type','Shop')->first();
+
       
          return view("website.shop-details",[
             "product_detail"=>$product_detail,
             "related_product"=>$related_product,
+            "shopDetail"=>$shopDetail,
         ]);
     } 
 

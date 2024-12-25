@@ -42,13 +42,24 @@
                 </div>
             </div>
             <div class="row featured__filter">
+
+                @php
+                $favorite = session()->get('favorite', []);
+                 @endphp
+
                 @foreach ($AllProduct as $Product )
                 <div class="col-lg-3 col-md-4 col-sm-6 mix category{{$Product->cat_id}}">
                     <div class="featured__item">
                         <div class="featured__item__pic set-bg" data-setbg="{{ asset('storage/'.$Product->image ) }}">
                             <ul class="featured__item__pic__hover">
-                                <li><a href="{{route('add-favorite',["p_id"=>$Product->id])}}"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                <li>
+                                    <a href="{{ route('add-favorite', ['p_id' => $Product->id]) }}">
+                                        <i class="fa fa-heart" 
+                                           style="@if(array_key_exists($Product->id, session()->get('favorite', []))) color: red; @endif">
+                                        </i>
+                                    </a>
+                                </li>
+                                                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
                                 <li>
 
                                     <form action="{{ route('add-to-cart', $Product->id) }}" method="POST">
@@ -79,17 +90,26 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="banner__pic">
-                        <img src="{{asset('asset/img/banner/banner-1.jpg')}}" alt="">
+                        <img 
+                            src="{{ asset('storage/'.$home2->banner_image) }}" 
+                            alt="" 
+                            style="width: 100%; height: 300px; object-fit: cover; display: block;"
+                        >
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="banner__pic">
-                        <img src="{{asset('asset/img/banner/banner-2.jpg')}}" alt="">
+                        <img 
+                            src="{{ asset('storage/'.$home3->banner_image) }}" 
+                            alt="" 
+                            style="width: 100%; height: 300px; object-fit: cover; display: block;"
+                        >
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
     <!-- Banner End -->
 
     <!-- Latest Product Section Begin -->

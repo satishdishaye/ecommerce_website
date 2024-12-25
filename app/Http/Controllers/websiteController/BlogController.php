@@ -10,6 +10,7 @@ use App\models\Order;
 use App\models\OrderDetail;
 use App\models\Blog;
 use App\models\BlogCategory;
+use App\models\Banner;
 
 
 class BlogController extends Controller
@@ -29,15 +30,14 @@ class BlogController extends Controller
         }
 
 
-
-
         $blog= $blog->paginate(10);
         $blogCategory= BlogCategory::get();
+        $blogBanner= Banner::where('type','Blog')->first();
 
-        
          return view("website.blog",[
                "blog"=>$blog,
                "blogCategory"=>$blogCategory,
+               "blogBanner"=>$blogBanner,
         ]);
     }
 
@@ -49,11 +49,13 @@ class BlogController extends Controller
 
         $blog= Blog::get();
         $blogCategory= BlogCategory::get();
+        $blogDetailsB= Banner::where('type','Blog')->where('name','BlogDetail')->first();
 
          return view("website.blog-details",[
                "blog"=>$blog,
                "blogCategory"=>$blogCategory,
                "blogDetails"=>$blogDetails,
+               "blogDetailsB"=>$blogDetailsB,
         ]);
     }   
 }

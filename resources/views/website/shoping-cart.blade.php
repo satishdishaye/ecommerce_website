@@ -77,7 +77,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="shoping__cart__btns">
-                    <a href="{{route('shop-grid')}}" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+                     <a href="{{route('shop-grid')}}" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
                     <a href="{{route('shoping-card')}}" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
                         Update Cart</a>
                 </div>
@@ -87,11 +87,12 @@
                     <div class="shoping__discount">
                         <h5>Discount Codes</h5>
                         <form action="{{route('apply-coupon')}}" method="GET">        
-                            <input type="text" name="code" placeholder="Enter your coupon code">
+                            <input type="text" name="code" value="{{session('coupon_code')}}" placeholder="Enter your coupon code">
+                            @if (session('coupon'))    <button type="submit" class="site-btn">Remove COUPON </button>
+                            @else
                             <button type="submit" class="site-btn">Apply COUPON </button>
+                            @endif
                         </form>
-
-                        @if (session('coupon'))   Coupon Applied @endif
                     </div>
                 </div>
             </div>

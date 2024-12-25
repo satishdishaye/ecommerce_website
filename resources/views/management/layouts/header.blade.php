@@ -177,7 +177,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class='nav-link' href='#'>Roles & Permissions</a>
+                                <a class='nav-link' href='{{route('management.banner')}}'>Banner Manage</a>
                             </li><!--end nav-item-->
                         </ul><!--end nav-->
                     </div><!-- end Settings -->

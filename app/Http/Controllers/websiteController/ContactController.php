@@ -6,13 +6,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendContactMail;
 use App\Models\Subscriber;
+use App\Models\Banner;
 
 
 class ContactController extends Controller
 {
     public function contact(Request $request)
     {
-         return view("website.contact");
+        $contact= Banner::where('type','Contact')->first();
+
+         return view("website.contact",['contact'=>$contact]);
     }
 
 
