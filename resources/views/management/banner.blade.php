@@ -52,7 +52,7 @@
                                     <div class="col-md-4 col-lg-2">
                                         <div class="mb-3">
                                             <label class="mb-2"> Banner Type <span class="text-danger">*</span></label>
-                                            <input type="text" placeholder="Enter Name" class="form-control" name="type" >
+                                            <input type="text" placeholder="Enter Name" class="form-control" name="type"   value="{{old('type')}}">
                                             @error('type')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
@@ -62,7 +62,7 @@
                                     <div class="col-md-4 col-lg-2">
                                         <div class="mb-3">
                                             <label class="mb-2"> Banner Name <span class="text-danger">*</span></label>
-                                            <input type="text" placeholder="Enter Name" class="form-control" name="name" >
+                                            <input type="text" placeholder="Enter Name" class="form-control" name="name"  value="{{old('name')}}" >
                                             @error('name')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
@@ -71,7 +71,7 @@
                                     <div class="col-md-4 col-lg-2">
                                         <label class="mb-2">Upload Banner Photo</label>
                                         <div class="input-group mb-3">
-                                            <input type="file" name="banner_image" class="form-control">
+                                            <input type="file" name="banner_image"  value="{{old('banner_image')}}" class="form-control">
                                             @error('banner_image')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror

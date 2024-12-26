@@ -17,7 +17,7 @@
                     <div class="col-lg-6 col-md-8">
                         <div class="form-group">
                             <label for="email">Email Address</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                            <input type="email" class="form-control" id="email" name="email"  value="{{old('email')}}" placeholder="Enter your email" required>
                             @error('email')
                             <div  class="text-danger"> {{$message}}</div>
                         @enderror

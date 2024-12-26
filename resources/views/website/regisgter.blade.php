@@ -17,7 +17,7 @@
                     <div class="col-lg-6 col-md-8">
                         <div class="form-group">
                             <label for="name">Full Name</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your full name" >
+                            <input type="text" class="form-control" id="name" value="{{old('name')}}" name="name" placeholder="Enter your full name" >
 
                             @error('name')
                                 <div  class="text-danger"> {{$message}}</div>
@@ -25,14 +25,14 @@
                         </div>
                         <div class="form-group">
                             <label for="email">Email Address</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                            <input type="email" class="form-control" id="email" value="{{old('email')}}" name="email" placeholder="Enter your email" required>
                             @error('email')
                             <div  class="text-danger"> {{$message}}</div>
                         @enderror
                         </div>
                         <div class="form-group">
                             <label for="mobile_no">Mobile Number</label>
-                            <input type="text" class="form-control" id="mobile_no" name="mobile_no" placeholder="Enter your mobile number" required>
+                            <input type="text" class="form-control" id="mobile_no"  value="{{old('mobile_no')}}" name="mobile_no" placeholder="Enter your mobile number" required>
                             @error('mobile_no')
                             <div  class="text-danger"> {{$message}}</div>
                         @enderror

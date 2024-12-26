@@ -52,7 +52,7 @@
                                     <div class="col-md-4 col-lg-2">
                                         <div class="mb-3">
                                             <label class="mb-2"> Coupon Code <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" name="code" >
+                                            <input type="text" class="form-control" name="code"   value="{{old('code')}}">
                                             @error('code')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
@@ -62,7 +62,7 @@
                                     <div class="col-md-4 col-lg-2">
                                         <div class="mb-3">
                                             <label class="mb-2"> Discount <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" name="discount" >
+                                            <input type="text" class="form-control" name="discount" value="{{old('discount')}}" >
                                             @error('discount')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
@@ -72,7 +72,7 @@
                                     <div class="col-md-4 col-lg-2">
                                         <div class="mb-3">
                                             <label class="mb-2"> Coupon Type <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" name="coupon_type" >
+                                            <input type="text" class="form-control" name="coupon_type"  value="{{old('coupon_type')}}" >
                                             @error('coupon_type')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
@@ -83,7 +83,7 @@
                                     <div class="col-md-4 col-lg-2">
                                         <div class="mb-3">
                                             <label class="mb-2"> Coupon Expire Date <span class="text-danger">*</span></label>
-                                            <input type="date" class="form-control" name="expires_at" >
+                                            <input type="date" class="form-control" name="expires_at"  value="{{old('expires_at')}}"  >
                                             @error('expires_at')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror

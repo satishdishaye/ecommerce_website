@@ -58,7 +58,7 @@
                         <div class="col-md-4 col-lg-2">
                            <div class="mb-3">
                               <label class="mb-2">Blog Title <span class="text-danger">*</span></label>
-                              <input type="text" placeholder="Enter Name" class="form-control" name="title" value="" required>
+                              <input type="text" placeholder="Enter Name" class="form-control" name="title" value="{{old('title')}}" required>
                               @error('title')
                               <div class="alert alert-danger">{{ $message }}</div>
                               @enderror
@@ -67,7 +67,7 @@
                         <div class="col-md-4 col-lg-2">
                            <div class="mb-3">
                               <label class="mb-2">Author Name <span class="text-danger">*</span></label>
-                              <input type="text"  class="form-control" name="author" value="" required>
+                              <input type="text"  class="form-control" name="author" value="{{old('author')}}" required>
                               @error('author')
                               <div class="alert alert-danger">{{ $message }}</div>
                               @enderror
@@ -76,7 +76,7 @@
                         <div class="col-md-4 col-lg-2">
                            <div class="mb-3">
                               <label class="mb-2">Tags <span class="text-danger">*</span></label>
-                              <input type="text"  class="form-control" name="tags" value="" required>
+                              <input type="text"  class="form-control" name="tags"  value="{{old('tags')}}" required>
                               @error('tags')
                               <div class="alert alert-danger">{{ $message }}</div>
                               @enderror

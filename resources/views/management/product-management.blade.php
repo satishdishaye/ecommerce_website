@@ -69,7 +69,7 @@
                                     <div class="col-md-4 col-lg-2">
                                         <div class="mb-3">
                                             <label class="mb-2">Product Name <span class="text-danger">*</span></label>
-                                            <input type="text" placeholder="Enter Name" class="form-control" name="product_name" value="" required>
+                                            <input type="text" placeholder="Enter Name" class="form-control" name="product_name"  value="{{old('product_name')}}" required>
                                             @error('product_name')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
@@ -78,7 +78,7 @@
                                     <div class="col-md-4 col-lg-2">
                                         <div class="mb-3">
                                             <label class="mb-2">Price <span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="price" required>
+                                            <input type="number" class="form-control" name="price" value="{{old('price')}}" required>
                                             @error('price')
                                                  <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
@@ -88,7 +88,7 @@
                                     <div class="col-md-4 col-lg-2">
                                         <div class="mb-3">
                                             <label class="mb-2">Market Price <span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="market_price" required>
+                                            <input type="number" class="form-control" name="market_price" value="{{old('market_price')}}" required>
                                             @error('market_price')
                                                  <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
@@ -98,7 +98,7 @@
                                     <div class="col-md-4 col-lg-2">
                                         <div class="mb-3">
                                             <label class="mb-2">Weight <span class="text-danger">*</span></label>
-                                            <input type="number"  class="form-control" name="weight" value="" required>
+                                            <input type="number"  class="form-control" name="weight"  value="{{old('weight')}}" required>
                                             @error('weight')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
@@ -108,7 +108,7 @@
                                     <div class="col-md-4 col-lg-2">
                                         <div class="mb-3">
                                             <label class="mb-2">Availability (Qty) <span class="text-danger">*</span></label>
-                                            <input type="number"  class="form-control" name="availability" value="" required>
+                                            <input type="number"  class="form-control" name="availability"  value="{{old('availability')}}" required>
                                             @error('availability')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
@@ -118,7 +118,7 @@
                                     <div class="col-md-4 col-lg-2">
                                         <div class="mb-3">
                                             <label class="mb-2">Shipping (Day) <span class="text-danger">*</span></label>
-                                            <input type="number"  class="form-control" name="Shipping" value="" required>
+                                            <input type="number"  class="form-control" name="Shipping" value="{{old('Shipping')}}" required>
                                             @error('Shipping')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror

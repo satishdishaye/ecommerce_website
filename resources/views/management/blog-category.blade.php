@@ -52,7 +52,7 @@
                                     <div class="col-md-4 col-lg-2">
                                         <div class="mb-3">
                                             <label class="mb-2"> Category Name <span class="text-danger">*</span></label>
-                                            <input type="text" placeholder="Enter Name" class="form-control" name="category_name" >
+                                            <input type="text" placeholder="Enter Name" class="form-control" name="category_name"  value="{{old('category_name')}}">
                                             @error('category_name')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror

@@ -9,7 +9,7 @@ use App\Http\Controllers\managementControllers\OrderController;
 use App\Http\Controllers\managementControllers\BlogManagement;
 use App\Http\Controllers\managementControllers\CouponController;
 
-
+  
 use App\Http\Controllers\websiteController\HomeController;
 use App\Http\Controllers\websiteController\UserController;
 use App\Http\Controllers\websiteController\ShopController;

@@ -371,8 +371,8 @@ class CartAndCheckoutController extends Controller
             $order->status = 'completed';
             $order->payment_id = $input['payment_id'];
             $order->save();
-            // SendPaymentConfirmationEmail::dispatch($order);
-            MailFacade::to($order->email)->send(new PaymentConfirmationMail($order ));
+            SendPaymentConfirmationEmail::dispatch($order);
+            // MailFacade::to($order->email)->send(new PaymentConfirmationMail($order ));
 
 
             session()->forget('cart');

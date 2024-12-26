@@ -25,7 +25,6 @@
             "description": "Payment for order {{ $order->id }}",
             "image": "https://yourdomain.com/logo.png",
             "handler": function (response) {
-                // Handle the success response here
                 var payment_id = response.razorpay_payment_id;
                 var order_id = response.razorpay_order_id;
                 var signature = response.razorpay_signature;

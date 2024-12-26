@@ -18,7 +18,7 @@
                 <div class="col-md-6 col-lg-6">
                     <div class="mb-3">
                         <label class="mb-2" for="userpassword">Banner Type</label>
-                        <input type="text" class="form-control" name="update_type" id="update_type" placeholder="Enter category">
+                        <input type="text" class="form-control" name="update_type" id="update_type"  placeholder="Enter category">
                         @error('update_type')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror

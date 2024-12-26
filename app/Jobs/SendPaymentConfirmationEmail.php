@@ -33,8 +33,7 @@ class SendPaymentConfirmationEmail implements ShouldQueue
      */
     public function handle()
     {
-        // Send the email
-          // Assuming the order has a user relationship
+      
         MailFacade::to($order->email)->send(new PaymentConfirmationMail($this->order));
     }
 }
