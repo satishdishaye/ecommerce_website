@@ -54,23 +54,54 @@
                             
                         
                             <!-- Add to Cart Button -->
-                            <form action="{{ route('add-to-cart', $product_detail->id) }}" method="POST" style="display: flex; justify-content: center; width: auto;">
-                                <div class="quantity" style="width: auto; text-align: center;">
-                                    <div class="pro-qty">
-                                        <input type="text" class="cart-quantity-input" value="1" min="1" max="{{ intval($product_detail->availability) }}" name="qty" style="width: 50px; padding: 5px; font-size: 14px;">
-                                    </div>
+                                                        
+                            <div class="quantity" style="width: auto; text-align: center;">
+                                    @php
+                                    $sessionCart = session('cart');
+                                        $sessionQty = isset($sessionCart[$product_detail->id]) ? $sessionCart[$product_detail->id]['quantity'] : 1;
+                                    @endphp
+                            
+                                    <button 
+                                        type="button" 
+                                        onclick="updateQuantity(-1,'{{ $product_detail->id}}')" 
+                                        style="width: 30px; height: 30px; font-size: 20px; text-align: center; line-height: 30px; background-color: #f1f1f1; border: 1px solid #ccc; cursor: pointer;">
+                                        -
+                                    </button>
+                                    <input 
+                                        type="number" 
+                                        id="quantity" 
+                                        class="cart-quantity-input" 
+                                        value="{{ $sessionQty }}" 
+                                        min="1" 
+                                        max="{{ intval($product_detail->availability) }}" 
+                                        name="qty" 
+                                        style="width: 30px; height: 30px; font-size: 20px; text-align: center; line-height: 30px; background-color: #f1f1f1; border: 1px solid #ccc; cursor: pointer;"
+                                    >
+                                    <button 
+                                        type="button" 
+                                        onclick="updateQuantity(1,'{{ $product_detail->id}}')" 
+                                        style="width: 30px; height: 30px; font-size: 20px; text-align: center; line-height: 30px; background-color: #f1f1f1; border: 1px solid #ccc; cursor: pointer;">
+                                        +
+                                    </button>
                                 </div>
-                                @csrf
-                                <button type="submit" class="primary-btn"  style="padding: 5px 15px; font-size: 14px;">
-                                    ADD TO CART
+                                
+
+                              
+                                <button 
+                                    onclick="toggleCart({{ $product_detail->id }}, this)" 
+                                    class="primary-btn add-to-cart-btn" 
+                                    style="padding: 5px 15px; font-size: 14px;  @if(array_key_exists($product_detail->id, session()->get('cart', []))) background-color: red; @else  background-color: green; @endif"   color: white;"
+                                >
+                                @if(array_key_exists($product_detail->id, session()->get('cart', []))) REMOVE @else  ADD TO CART @endif
+                                   
                                 </button>
-                            </form>
-                            @php
-                            $favorite = session()->get('favorite', []);
-                             @endphp
+                         
+
                             <!-- Heart Icon -->
-                            <a href="{{ route('add-favorite', ['p_id' => $product_detail->id]) }}" class="heart-icon" style="text-align: center; width: auto;">
-                                <span class="icon_heart_alt" style="font-size: 24px; @if(array_key_exists($product_detail->id, $favorite)) color: red; @endif"></span>
+                            <a onclick="addToFavorite({{ $product_detail->id }}, this)" class="heart-icon" style="text-align: center; width: auto;">
+                                <span>  <i class="fa fa-heart" 
+                                    style="@if(array_key_exists($product_detail->id, session()->get('favorite', []))) color: red; @endif">
+                                 </i></span>
                             </a> 
                         </div>
                         <ul>
@@ -147,15 +178,12 @@
                     <div class="product__item">
                         <div class="product__item__pic set-bg" data-setbg="{{ asset('storage/'.$irelated_product->image ) }}">
                             <ul class="product__item__pic__hover">
-                                <li><a href="{{route('add-favorite',["p_id"=>$irelated_product->id])}}"><i class="fa fa-heart"></i></a></li>
+                                <li><a onclick="addToFavorite({{ $irelated_product->id }}, this)"><i class="fa fa-heart"></i></a></li>
                                 <li><a href="#"><i class="fa fa-retweet"></i></a></li>
                                 <li>
-                                    <form action="{{ route('add-to-cart', $irelated_product->id) }}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="btn btn-outline-dark">
-                                            <i class="fa fa-shopping-cart"></i>
-                                        </button>
-                                    </form>
+                                    <button onclick="addToCart({{ $irelated_product->id }}, this)"class="btn btn-outline-dark">
+                                        <i class="fa fa-shopping-cart"  style="@if(array_key_exists($irelated_product->id, session()->get('cart', []))) color: green; @endif"></i>
+                                    </button>
                                 </li>
                             </ul>
                         </div>
@@ -174,25 +202,86 @@
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function updateQuantity(change ,id) {
+            const input = document.getElementById('quantity');
+            let currentValue = parseInt(input.value) || 1;
+            const max = parseInt(input.getAttribute('max')) || 1;
+    
+            // Update value within bounds
+            currentValue += change;
+            if (currentValue < 1) currentValue = 1;
+            if (currentValue > max) currentValue = max;
+    
+            input.value = currentValue;
+
+
+            fetch("{{route('change-qty')}}",{
+                method: 'POST',
+                headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{csrf_token()}}'
+                          },
+                body: JSON.stringify({
+                       p_id:id,
+                       qty:currentValue
+                        })     
+            }).then(response=>response.json())
+              .then(data=>{
+                console.log(data);
+              })
+              .catch(error=>console.error('Error:', error));
+
+    
+        }
+    </script>
+    
 <script>
-$(document).ready(function () {
+    function toggleCart(productId, element) {
+        const isAdding = element.textContent.trim() === 'ADD TO CART'; // Check current state
+        const qtyInput = document.querySelector('.cart-quantity-input');
+        const quantity = qtyInput ? parseInt(qtyInput.value) || 1 : 1;
 
-    // Handle quantity input change
-    $(document).on("change", ".cart-quantity-input", function () {
-        var productId = $(this).closest("tr").data("product-id");
-        var newQuantity = $(this).val();
-        var maxStock = $(this).attr("max");
+        fetch("{{ route('add-to-cart') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ 
+                p_id: productId, 
+                qty: quantity,
+                action: isAdding ? 'add' : 'remove' 
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Toggle button text and color
+                element.textContent = isAdding ? 'REMOVE' : 'ADD TO CART';
+                element.style.backgroundColor = isAdding ? 'red' : 'green';
 
-        // Check if the new quantity exceeds the available stock
-        if (newQuantity > maxStock) {
-            alert("Quantity cannot be more than available stock.");
-            $(this).val(maxStock); // Reset to max stock value
-            return;
-        }  
-    });
+                const countElement = document.getElementById('cart-count');
+                if (countElement) {
+                    countElement.textContent = data.cart;  
+                }
 
-   
+                toastr.success(data.message, data.message, {
+                    timeOut: 2000,  
+                });
+            } else {
+                toastr.error(data.message, data.message, {
+                    timeOut: 2000,  
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to update cart. Please try again.');
+        });
+    }
 
-});
+    
 </script>
+
     @endsection 

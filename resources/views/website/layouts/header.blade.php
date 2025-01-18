@@ -72,12 +72,9 @@
     $cart = session()->get('cart', []);
     $favorite = session()->get('favorite', []);
     
-    // Total number of unique products in the cart
     $totalQuantity = count($cart);
     $totalQuantityfav = count($favorite);
     
-    // Total quantity of all products (if product is added multiple times)
-    // $totalQuantity = array_sum(array_column($cart, 'quantity'));
      @endphp
 
 
@@ -162,7 +159,12 @@
 
                             </div>
                             <div class="header__top__right__auth">
-                                <a href="{{route('user-login')}}"><i class="fa fa-user"></i> Login</a>
+                            
+                              @if (optional(auth()->user())->name)
+                             {{auth()->user()->name}}
+                              @else
+                              <a href="{{route('user-login')}}"><i class="fa fa-user"></i> Login</a>
+                              @endif  
                             </div>
                         </div>
                     </div>
@@ -191,8 +193,13 @@
                 <div class="col-lg-3">
                     <div class="header__cart">
                         <ul>
-                            <li><a href="{{route('get-favorite-product')}}"><i class="fa fa-heart"></i> <span>{{$totalQuantityfav}}</span></a></li>
-                            <li><a href="{{route('shoping-card')}}"><i class="fa fa-shopping-bag"></i> <span>{{  $totalQuantity}}</span></a></li>
+                            <li>
+                                <a href="{{ route('get-favorite-product') }}">
+                                    <i class="fa fa-heart"></i> 
+                                    <span id="favorite-count">{{ count(session()->get('favorite', [])) }}</span>
+                                </a>
+                            </li>
+                             <li><a href="{{route('shoping-card')}}"><i class="fa fa-shopping-bag"></i>   <span id="cart-count">{{ count(session()->get('cart', [])) }}</span></a></li>
                         </ul>
                         <div class="header__cart__price">item: <span>$150.00</span></div>
                     </div>
@@ -233,25 +240,16 @@
                 
                 <!-- Inline JavaScript -->
                
-                
-                
                 <div class="col-lg-9">
                     <div class="hero__search">
-
-                       
+ 
                         <div class="hero__search__form">
-                            <form 
-                                @if (Route::currentRouteName() == 'home')
-                                action="{{route('home')}}"
-                                @else
-                                action="{{route('shop-grid')}}"
-                                @endif
-                                method="GET">
+                            <form  action="{{route('shop-grid')}}"  method="GET">
                                 
                                 <select name="category" style="display: block; visibility: visible; position: relative;">
                                     <option value="">All Category</option>
                                     @foreach ($AllCategory as $iAllCategory)
-                                        <option value="{{$iAllCategory->id}}">{{$iAllCategory->category_name}}</option>
+                                        <option value="{{$iAllCategory->id}}" @if (request('category') == $iAllCategory->id) selected @endif >{{$iAllCategory->category_name}}</option>
                                     @endforeach
                                 </select>
                                 
@@ -289,4 +287,9 @@
         </div>
     </section>
     <!-- Hero Section End -->
+
+
+
+
+
 

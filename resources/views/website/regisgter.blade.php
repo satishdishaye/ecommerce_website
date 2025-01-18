@@ -11,6 +11,7 @@
                     </div>
                 </div>
             </div>
+            
             <form action="{{route('register-post')}}" method="POST">
                 @csrf
                 <div class="row justify-content-center">

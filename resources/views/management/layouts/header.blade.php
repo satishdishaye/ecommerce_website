@@ -16,16 +16,13 @@
          <link href="{{ url('management/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
          <link href="{{ url('management/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <!-- DataTables -->
-        <link href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css" rel="stylesheet" type="text/css" />
-        <link href="https://cdn.datatables.net/responsive/3.0.2/css/responsive.bootstrap5.css" rel="stylesheet" type="text/css" />
+        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> --}}
+       
         
-        
-        <link href="{{ url('management/assets/libs/mobius1-selectr/selectr.min.css') }}" rel="stylesheet" type="text/css" />
+        {{-- <link href="{{ url('management/assets/libs/mobius1-selectr/selectr.min.css') }}" rel="stylesheet" type="text/css" /> --}}
         
 
-         <link href="{{ url('management/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
+         {{-- <link href="{{ url('management/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" /> --}}
 
     </head>
 

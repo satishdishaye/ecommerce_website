@@ -42,32 +42,23 @@
                 </div>
             </div>
             <div class="row featured__filter">
-
-                @php
-                $favorite = session()->get('favorite', []);
-                 @endphp
-
                 @foreach ($AllProduct as $Product )
                 <div class="col-lg-3 col-md-4 col-sm-6 mix category{{$Product->cat_id}}">
                     <div class="featured__item">
                         <div class="featured__item__pic set-bg" data-setbg="{{ asset('storage/'.$Product->image ) }}">
                             <ul class="featured__item__pic__hover">
                                 <li>
-                                    <a href="{{ route('add-favorite', ['p_id' => $Product->id]) }}">
+                                    <a href="javascript:void(0)" onclick="addToFavorite({{ $Product->id }}, this)">
                                         <i class="fa fa-heart" 
                                            style="@if(array_key_exists($Product->id, session()->get('favorite', []))) color: red; @endif">
                                         </i>
                                     </a>
                                 </li>
-                                                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
                                 <li>
-
-                                    <form action="{{ route('add-to-cart', $Product->id) }}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="btn btn-outline-dark">
-                                            <i class="fa fa-shopping-cart"></i>
-                                        </button>
-                                    </form>
+                                <button onclick="addToCart({{ $Product->id }}, this)"class="btn btn-outline-dark">
+                                    <i class="fa fa-shopping-cart"  style="@if(array_key_exists($Product->id, session()->get('cart', []))) color: green; @endif"></i>
+                                </button>
 
                                 </li>
 
@@ -109,7 +100,7 @@
             </div>
         </div>
     </div>
-    
+  
     <!-- Banner End -->
 
     <!-- Latest Product Section Begin -->

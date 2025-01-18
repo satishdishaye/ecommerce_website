@@ -49,10 +49,35 @@
                                     ${{ $iproduct_details->price }}.00
                                 </td>
                                 <td class="shoping__cart__quantity">
-                                    <div class="quantity">
-                                        <div class="pro-qty">
-                                            <input type="number" value="{{ $cart[$iproduct_details->id]['quantity'] }}" min="1" max="{{ intval($iproduct_details->availability) }}" id="quantity_{{ $iproduct_details->id }}" class="cart-quantity-input">
-                                        </div>
+
+                                    <div class="quantity" style="width: auto; text-align: center;">
+                                        @php
+                                        $sessionCart = session('cart');
+                                            $sessionQty = isset($sessionCart[$iproduct_details->id]) ? $sessionCart[$iproduct_details->id]['quantity'] : 1;
+                                        @endphp
+                                
+                                        <button 
+                                            type="button" 
+                                            onclick="updateQuantity(-1,'{{ $iproduct_details->id}}')" 
+                                            style="width: 30px; height: 30px; font-size: 20px; text-align: center; line-height: 30px; background-color: #f1f1f1; border: 1px solid #ccc; cursor: pointer;">
+                                            -
+                                        </button>
+                                        <input 
+                                            type="number" 
+                                            id="quantity_{{$iproduct_details->id}}" 
+                                            class="cart-quantity-input" 
+                                            value="{{ $sessionQty }}" 
+                                            min="1" 
+                                            max="{{ intval($iproduct_details->availability) }}" 
+                                            name="qty" 
+                                            style="width: 30px; height: 30px; font-size: 20px; text-align: center; line-height: 30px; background-color: #f1f1f1; border: 1px solid #ccc; cursor: pointer;"
+                                        >
+                                        <button 
+                                            type="button" 
+                                            onclick="updateQuantity(1,'{{ $iproduct_details->id}}')" 
+                                            style="width: 30px; height: 30px; font-size: 20px; text-align: center; line-height: 30px; background-color: #f1f1f1; border: 1px solid #ccc; cursor: pointer;">
+                                            +
+                                        </button>
                                     </div>
                                 </td>
                                 <td class="shoping__cart__total">
@@ -78,17 +103,16 @@
             <div class="col-lg-12">
                 <div class="shoping__cart__btns">
                      <a href="{{route('shop-grid')}}" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
-                    <a href="{{route('shoping-card')}}" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
-                        Update Cart</a>
+                    
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="shoping__continue">
-                    <div class="shoping__discount">
+                    <div class="shoping__discount" id="discount-section">
                         <h5>Discount Codes</h5>
                         <form action="{{route('apply-coupon')}}" method="GET">        
                             <input type="text" name="code" value="{{session('coupon_code')}}" placeholder="Enter your coupon code">
-                            @if (session('coupon'))    <button type="submit" class="site-btn">Remove COUPON </button>
+                            @if (session('coupon'))    <button type="submit" style="background-color: red;" class="site-btn">Remove COUPON </button>
                             @else
                             <button type="submit" class="site-btn">Apply COUPON </button>
                             @endif
@@ -102,8 +126,11 @@
                     <ul>
 
                         <li>Subtotal <span id="cart-subtotal">${{ $cartSubtotal }} </span></li>
-                        @if (session('coupon')) <li>Coupon Discount <span>{{session('coupon') }}%</span></li> @endif
-                        <li>Total <span id="cart-total">${{ $cartSubtotal- $cartSubtotal *session('coupon')/100  }}</span></li>
+                        <div id="coupon-section">
+                            @if (session('coupon'))
+                                <li>Coupon Discount <span>${{ $cartSubtotal * session('coupon') / 100 }}</span></li>
+                            @endif
+                        </div>                        <li>Total <span id="cart-total">${{ $cartSubtotal- $cartSubtotal *session('coupon')/100  }}</span></li>
                     </ul>
                     <a href="{{route('checkout')}}" class="primary-btn">PROCEED TO CHECKOUT</a>
                 </div>
@@ -115,20 +142,36 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).ready(function () {
+    function updateQuantity(change, productId) {
 
-    // Handle quantity input change
-    $(document).on("change", ".cart-quantity-input", function () {
-        var productId = $(this).closest("tr").data("product-id");
-        var newQuantity = $(this).val();
-        var maxStock = $(this).attr("max");
+        $('#coupon-section').remove(); // Remove the coupon section temporarily
+       
 
-        // Check if the new quantity exceeds the available stock
-        if (newQuantity > maxStock) {
-            alert("Quantity cannot be more than available stock.");
-            $(this).val(maxStock); // Reset to max stock value
-            return;
-        }
+        $('#discount-section').html(`
+            <div class="shoping__continue">
+                <div class="shoping__discount">
+                    <h5>Discount Codes</h5>
+                    <form action="{{ route('apply-coupon') }}" method="GET">
+                        <input type="text" name="code" placeholder="Enter your coupon code">
+                       
+                            <button type="submit" class="site-btn">Apply  COUPON</button>
+                        
+                    </form>
+                </div>
+            </div>
+        `);
+
+        const input = document.getElementById('quantity_' + productId);
+
+        let newQuantity = parseInt(input.value) || 1;
+        const max = parseInt(input.getAttribute('max')) || Infinity;
+
+        // Update value within bounds
+        newQuantity += change;
+        if (newQuantity < 1) newQuantity = 1;
+        if (newQuantity > max) newQuantity = max;
+
+        input.value = newQuantity;
 
         // Send the updated quantity via AJAX
         $.ajax({
@@ -143,12 +186,10 @@ $(document).ready(function () {
                 if (response.updatedTotalPrice) {
                     $("#total_price_" + productId).text('$' + response.updatedTotalPrice + '.00');
                 }
-
                 if (response.updatedCartTotal) {
                     $('#cart-total').text('$' + response.updatedCartTotal + '.00');
                 }
-
-                if (response.updatedCartTotal) {
+                if (response.updatedSubCartTotal) {
                     $('#cart-subtotal').text('$' + response.updatedSubCartTotal + '.00');
                 }
             },
@@ -157,11 +198,30 @@ $(document).ready(function () {
                 alert("There was an error updating the cart. Please try again.");
             }
         });
-    });
+    }
+</script>
 
-    // Handle product removal
+<script>
+$(document).ready(function () {
     $(document).on("click", ".icon_close", function () {
         var productId = $(this).data("product-id");
+
+        $('#coupon-section').remove(); // Remove the coupon section temporarily
+       
+
+       $('#discount-section').html(`
+           <div class="shoping__continue">
+               <div class="shoping__discount">
+                   <h5>Discount Codes</h5>
+                   <form action="{{ route('apply-coupon') }}" method="GET">
+                       <input type="text" name="code" placeholder="Enter your coupon code">
+                      
+                           <button type="submit" class="site-btn">Apply  COUPON</button>
+                       
+                   </form>
+               </div>
+           </div>
+       `);
 
         $.ajax({
             url: '/remove-from-cart',

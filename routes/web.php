@@ -17,9 +17,8 @@ use App\Http\Controllers\websiteController\CartAndCheckoutController;
 use App\Http\Controllers\websiteController\BlogController;
 use App\Http\Controllers\websiteController\ContactController;
 
-
-
 ///////////start management /////////////////
+
 
 Route::get('management/login', [ManagementAuthController::class, 'managementLogin'])->name('management.login');
 Route::post('management/loginPost', [ManagementAuthController::class, 'managementLoginPost'])->name('management.loginPost');
@@ -93,17 +92,19 @@ Route::get('getProductsByCategory', [HomeController::class, 'getProductsByCatego
 Route::get('get-favorite-product', [HomeController::class, 'getFavoriteProduct'])->name('get-favorite-product');
 
 
-Route::post('/add-to-cart/{productId}', [CartAndCheckoutController::class, 'addToCart'])->name('add-to-cart');
+Route::post('add-to-cart', [CartAndCheckoutController::class, 'addToCart'])->name('add-to-cart');
+Route::post('change-qty', [CartAndCheckoutController::class, 'changeQty'])->name('change-qty');
+
 Route::get('/shoping-card', [CartAndCheckoutController::class, 'shopingCard'])->name('shoping-card');
 Route::post('/update-cart', [CartAndCheckoutController::class, 'updateCart'])->name('update-cart');
 Route::post('/remove-from-cart', [CartAndCheckoutController::class, 'removeFromCart'])->name('remove-from-cart');
 Route::get('checkout', [CartAndCheckoutController::class, 'checkout'])->name('checkout');
 Route::post('post-checkout', [CartAndCheckoutController::class, 'postCheckout'])->name('post-checkout');
 Route::get('apply-coupon', [CartAndCheckoutController::class, 'applycoupon'])->name('apply-coupon');
-Route::get('add-favorite/{p_id}', [CartAndCheckoutController::class, 'addFavorite'])->name('add-favorite');
+Route::post('add-favorite', [CartAndCheckoutController::class, 'addFavorite'])->name('add-favorite');
 
 
-
+    
 Route::get('user-login', [UserController::class, 'userLogin'])->name('user-login');
 Route::get('user-register', [UserController::class, 'userRegister'])->name('user-register');
 Route::post('login-post', [UserController::class, 'loginPost'])->name('login-post');
@@ -120,6 +121,4 @@ Route::post('send-contact', [ContactController::class, 'sendContact'])->name('se
 Route::post('newsletter/subscribe', [ContactController::class, 'subscribe'])->name('newsletter.subscribe');
 
 Route::post('/verify-payment', [CartAndCheckoutController::class, 'verifyPayment'])->name('verify.payment');
-
-
 

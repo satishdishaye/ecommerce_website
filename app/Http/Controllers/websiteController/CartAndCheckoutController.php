@@ -19,10 +19,10 @@ use App\models\Coupon;
 class CartAndCheckoutController extends Controller
 {
     
-    public function addToCart(Request $request, $productId)
+    public function addToCart(Request $request)
     {
 
-     
+        $productId=$request->input('p_id');
         $product = Product::find($productId);
 
         if (!$product) {
@@ -35,16 +35,59 @@ class CartAndCheckoutController extends Controller
         
             $cart[$productId] = [
                 'product_id' => $product->id,
-                'quantity' => $request->qty ?? 1,
+                'quantity' => $request->input('qty') ?? 1,
                 
             ];
 
             session()->put('cart', $cart);
-            return redirect()->back()->with('success', 'Product added to cart!');
+            return response()->json([
+                'status' => 'success',
+                'cart'=>count( $cart),
+                'message' => 'Add to Cart',
+              
+            ]);
+    
+            
         }
 
-        return redirect()->back()->with('success', 'Product is already in the cart.');
+        unset($cart[$productId]);
+
+        // Update the session
+        session()->put('cart', $cart);
+
+        return response()->json([
+            'status' => 'success',
+            'cart'=>count( $cart),
+
+            'message' => 'Remove to Cart',
+          
+        ]);
+    
     }
+
+
+    public function changeQty(Request $request)
+    {
+        $productId = $request->input('p_id');
+        $quantity = $request->input('qty') ?? 1;
+
+    
+        $cart = session()->get('cart', []);
+    
+        if (isset($cart[$productId])) {
+            $cart[$productId]['quantity'] = $quantity;
+            session()->put('cart', $cart);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Quantity updated successfully.',
+            ]);
+        }
+    
+      
+    }
+    
+
+
 
     public function shopingCard(Request $request)
     {
@@ -104,9 +147,8 @@ class CartAndCheckoutController extends Controller
                     // Calculate total amount
                 }
                 $updatedSubCartTotal=$updatedCartTotal;
-                if(session('coupon')){
-                    $updatedCartTotal= $updatedCartTotal- $updatedCartTotal*session('coupon')/100;
-                }
+                session()->forget('coupon_code');
+                session()->forget('coupon');
             }
 
             return response()->json([
@@ -141,10 +183,8 @@ class CartAndCheckoutController extends Controller
                 }
             }
             // $updatedCartTotal = array_sum(array_column($cart, 'total')); // Example calculation
-
-            if(session('coupon')){
-                $updatedCartTotal= $updatedCartTotal- $updatedCartTotal*session('coupon')/100;
-            }
+            session()->forget('coupon_code');
+            session()->forget('coupon');
 
             return response()->json([
                 'updatedCartTotal' => $updatedCartTotal,
@@ -390,8 +430,10 @@ class CartAndCheckoutController extends Controller
       }
     }
 
-    public function addFavorite(Request $request, $productId)
+    public function addFavorite(Request $request)
     { 
+        $productId = $request->input('p_id');
+
         $product = Product::find($productId);
 
         if (!$product) {
@@ -408,15 +450,28 @@ class CartAndCheckoutController extends Controller
             ];
 
             session()->put('favorite', $favorite);
-            return redirect()->back()->with('success', 'Product added to favorite!');
+
+            return response()->json([
+                'status' => 'success',
+                'favoriteCount'=>count( $favorite),
+                'message' => 'Added to favorites',
+              
+            ]);
         }
 
         unset($favorite[$productId]);
 
         // Update the session
         session()->put('favorite', $favorite);
+
+        return response()->json([
+            'status' => 'success',
+            'favoriteCount'=>count( $favorite),
+
+            'message' => 'Remove to favorites',
+          
+        ]);
     
-        return redirect()->back()->with('success', 'Product removed from favorite!');
 
     }
 }

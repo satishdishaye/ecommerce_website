@@ -107,19 +107,17 @@
                                             <div class="product__discount__percent">-20%</div>
                                             <ul class="product__item__pic__hover">
                                                 <li>
-                                                    <a href="{{ route('add-favorite', ['p_id' => $iallProduct->id]) }}">
+                                                    <a href="javascript:void(0)" onclick="addToFavorite({{ $iallProduct->id }}, this)">
                                                         <i class="fa fa-heart" 
                                                            style="@if(array_key_exists($iallProduct->id, session()->get('favorite', []))) color: red; @endif">
                                                         </i>
                                                     </a>
-                                                </li>                                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                                </li>                                        <li><a href="#"><i class="fa fa-retweet"></i></a></li>
                                                 <li>
-                                                    <form action="{{ route('add-to-cart', $iallProduct->id) }}" method="POST">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-outline-dark">
-                                                            <i class="fa fa-shopping-cart"></i>
-                                                        </button>
-                                                    </form>
+                                                    <button onclick="addToCart({{ $iallProduct->id }}, this)"class="btn btn-outline-dark">
+                                                        <i class="fa fa-shopping-cart"  style="@if(array_key_exists($iallProduct->id, session()->get('cart', []))) color: green; @endif"></i>
+                                                    </button>
+                    
                                                 </li>
 
                                             </ul>
@@ -167,20 +165,19 @@
                                 <div class="product__item__pic set-bg" data-setbg="{{ asset('storage/'.$ilatestProduct->image ) }}">
                                     <ul class="product__item__pic__hover">
                                         <li>
-                                            <a href="{{ route('add-favorite', ['p_id' => $ilatestProduct->id]) }}">
+                                            <a href="javascript:void(0)" onclick="addToFavorite({{ $ilatestProduct->id }}, this)">
                                                 <i class="fa fa-heart" 
                                                    style="@if(array_key_exists($ilatestProduct->id, session()->get('favorite', []))) color: red; @endif">
                                                 </i>
                                             </a>
-                                        </li>                                            <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                        </li>                                          <li><a href="#"><i class="fa fa-retweet"></i></a></li>
                                         <li>
-                                            <form action="{{ route('add-to-cart', $ilatestProduct->id) }}" method="POST">
-                                                @csrf
-                                                <button type="submit" class="btn btn-outline-dark">
-                                                    <i class="fa fa-shopping-cart"></i>
-                                                </button>
-                                            </form>
+                                            <button onclick="addToCart({{ $ilatestProduct->id }}, this)"class="btn btn-outline-dark">
+                                                <i class="fa fa-shopping-cart"  style="@if(array_key_exists($ilatestProduct->id, session()->get('cart', []))) color: green; @endif"></i>
+                                            </button>
+            
                                         </li>
+
         
                                     </ul>
                                 </div>

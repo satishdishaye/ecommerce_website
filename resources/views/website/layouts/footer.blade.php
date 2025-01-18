@@ -83,6 +83,13 @@
     <script src="{{asset('asset/js/main.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <!-- Toastr CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
    <!-- SweetAlert script to show success -->
    @if (session('success'))
    <script>
@@ -109,22 +116,85 @@
    </script>
 @endif
 
+<script>
+    function addToFavorite(productId, element) {
+        const icon = element.querySelector('i');
 
+        fetch("{{ route('add-favorite') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ p_id: productId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                icon.style.color = icon.style.color === 'red' ? '' : 'red';
+                const countElement = document.getElementById('favorite-count');
+                if (countElement) {
+                    countElement.textContent = data.favoriteCount;  
+                }
 
+                toastr.success(data.message, data.message, {
+                    timeOut: 2000,  
+                });
 
-<!-- translate script -->
-{{-- <script type="text/javascript">
-    function googleTranslateElementInit() {
+                
+            } else {
+                toastr.error(data.message, data.message, {
+                    timeOut: 2000,  
+                });
 
-        new google.translate.TranslateElement(
-            {pageLanguage: 'en'},
-            'google_translate_element',
-        );
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to update favorite. Please try again.');
+        });
     }
-</script> --}}
+</script>
 
+<script>
+    function addToCart(productId, element) {
+        const icon = element.querySelector('i');
 
+        fetch("{{ route('add-to-cart') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ p_id: productId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                icon.style.color = icon.style.color === 'green' ? '' : 'green';
+                const countElement = document.getElementById('cart-count');
+                if (countElement) {
+                    countElement.textContent = data.cart;  
+                }
 
+                toastr.success(data.message, data.message, {
+                    timeOut: 2000,  
+                });
+
+                
+            } else {
+                toastr.error(data.message, data.message, {
+                    timeOut: 2000,  
+                });
+
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to update favorite. Please try again.');
+        });
+    }
+</script>
 
 
 

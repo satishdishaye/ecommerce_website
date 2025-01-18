@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\models\Blog;
 use App\models\Banner;
 
-
+ 
 class HomeController extends Controller
 {
     public function home(Request $request)
